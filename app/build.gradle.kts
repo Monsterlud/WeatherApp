@@ -4,7 +4,8 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 32
+
 
     defaultConfig {
         applicationId = "com.dmonsalud.weatherapp"
@@ -36,7 +37,6 @@ android {
             dimension = "paidMode"
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -48,7 +48,6 @@ android {
 }
 
 dependencies {
-
     // AndroidX
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.5.1")
@@ -75,3 +74,4 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
 }
+
