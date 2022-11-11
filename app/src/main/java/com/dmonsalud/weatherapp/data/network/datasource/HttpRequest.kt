@@ -55,10 +55,6 @@ class HttpRequest(private val zipCode: Int) : AsyncTask<String, Unit, String>() 
         }
     }
 
-    override fun onPostExecute(result: String?) {
-        // Add anything here to update the WeatherAdapter?
-    }
-
     companion object {
         private const val GEOAPIKEY = "6ac4a867247e4553cb55984a2afce83e"
         private const val WEATHERAPIKEY = "c55cf80588aaf17941120bfbc7e366e8"
