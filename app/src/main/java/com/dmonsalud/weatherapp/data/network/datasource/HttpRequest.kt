@@ -38,7 +38,7 @@ class HttpRequest(private val zipCode: Int) : AsyncTask<String, Unit, String>() 
             }
 
             val weatherUrl =
-                URL("api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=$WEATHERAPIKEY")
+                URL("https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=$WEATHERAPIKEY")
 
             httpURLConnection = weatherUrl.openConnection() as HttpURLConnection
             val weatherResponseCode = httpURLConnection.responseCode

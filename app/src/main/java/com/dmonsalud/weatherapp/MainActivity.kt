@@ -10,6 +10,8 @@ import com.dmonsalud.weatherapp.data.network.datasource.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.data.network.datasource.HttpRequest
 import com.dmonsalud.weatherapp.data.network.datasource.NetworkStatusChecker
 import com.dmonsalud.weatherapp.databinding.ActivityMainBinding
+import com.dmonsalud.weatherapp.ui.WeatherListAdapter
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +27,9 @@ class MainActivity : AppCompatActivity() {
         val networkStatusChecker = NetworkStatusChecker(connectivityManager)
 
         if (networkStatusChecker.hasInternetConnection()) {
-//            val weatherJsonStringHolder =
-            HttpRequest(ZIPCODE).execute()
-//            val fiveDayWeatherResult = Gson().fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
-//            binding.weatherList.adapter = fiveDayWeatherResult?.let { WeatherListAdapter(it) }
+            val weatherJsonStringHolder = HttpRequest(ZIPCODE).execute().get()
+            val fiveDayWeatherResult = Gson().fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
+            binding.weatherList.adapter = fiveDayWeatherResult?.let { WeatherListAdapter(it) }
         } else {
             AlertDialog.Builder(this).setTitle("No Internet Connection")
                 .setMessage("Please check your internet connection and try again")
