@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dmonsalud.weatherapp.data.network.datasource.FiveDayWeatherResult
-import com.dmonsalud.weatherapp.databinding.ItemWeatherBinding
+import com.dmonsalud.weatherapp.databinding.ItemListWeatherBinding
 
 class WeatherListAdapter(private val fiveDayWeatherResult: FiveDayWeatherResult) :
     RecyclerView.Adapter<WeatherListAdapter.WeatherItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherItemViewHolder {
-        val binding = ItemWeatherBinding.inflate(
+        val binding = ItemListWeatherBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -27,6 +27,6 @@ class WeatherListAdapter(private val fiveDayWeatherResult: FiveDayWeatherResult)
 
     override fun getItemCount(): Int = fiveDayWeatherResult.list.size
 
-    class WeatherItemViewHolder(val binding: ItemWeatherBinding) :
+    class WeatherItemViewHolder(val binding: ItemListWeatherBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#c0ca33"</color>
-    <color name="primary_light">#f5fd67</color>
-    <color name="primary_dark">#8c9900</color>
+    <color name="weather_main">#558b2f</color>
+    <color name="weather_light">#85bb5c</color>
+    <color name="weather_dark">#255d00</color>
     <color name="text_dark">#1b1b1b</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

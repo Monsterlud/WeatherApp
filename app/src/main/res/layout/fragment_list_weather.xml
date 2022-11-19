@@ -11,7 +11,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,10 +18,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="24dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:text="Enter Zip Code to get Weather Forecast:"
+            android:textSize="18dp"
             android:textColor="@color/text_dark"
             android:textStyle="normal" />
 
@@ -37,26 +37,29 @@
             <EditText
                 android:id="@+id/et_zip_code"
                 android:layout_width="220dp"
-                android:layout_height="40dp"
-                android:hint="Zip Code" />
+                android:layout_height="60dp"
+                android:hint="Zip Code"
+                android:textSize="30dp"
+                android:inputType="number"/>
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="20dp"
                 android:text="Submit"
                 android:gravity="center"
-                android:backgroundTint="@color/primary_dark"
-                android:textColor="@color/text_dark" />
+                android:backgroundTint="@color/weather_dark"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWeatherList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/primary_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/zipCodeEntry"
             tools:listitem="@layout/item_list_weather" />
