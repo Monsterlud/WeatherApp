@@ -47,6 +47,10 @@ class WeatherListFragment : Fragment() {
         val recyclerView = binding.rvWeatherList
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
+        getFiveDayWeatherForecast()
+    }
+
+    private fun getFiveDayWeatherForecast() {
         val connectivityManager =
             activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkStatusChecker = NetworkStatusChecker(connectivityManager)
