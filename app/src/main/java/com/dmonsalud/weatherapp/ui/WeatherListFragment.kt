@@ -20,6 +20,7 @@ class WeatherListFragment : Fragment() {
 
     private lateinit var binding: FragmentListWeatherBinding
     private var sharedPreferences: SharedPreferences? = null
+    private lateinit var weatherJsonStringHolder: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +52,9 @@ class WeatherListFragment : Fragment() {
         val networkStatusChecker = NetworkStatusChecker(connectivityManager)
 
         if (networkStatusChecker.hasInternetConnection()) {
-            sharedPreferences = activity?.getSharedPreferences("weatherPreferences", Context.MODE_PRIVATE)
-            val editor = sharedPreferences?.edit()
+            weatherJsonStringHolder = HttpRequest(ZIPCODE).execute().get()
+            saveResponseInSharedPrefs()
 
-            val weatherJsonStringHolder = HttpRequest(ZIPCODE).execute().get()
-            editor?.putString("five_day_weather_result", weatherJsonStringHolder)
-            editor?.apply()
             val fiveDayWeatherResult = Gson().fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
             binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResult)
         } else {
@@ -65,16 +63,26 @@ class WeatherListFragment : Fragment() {
                 val fiveDayWeatherResultFromPrefs = Gson().fromJson(jsonStringFromPrefs, FiveDayWeatherResult::class.java)
                 binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResultFromPrefs)
             } ?: run {
-                AlertDialog.Builder(activity).setTitle("No Internet Connection")
-                    .setMessage("Please check your internet connection and try again")
-                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setIcon(android.R.drawable.ic_dialog_alert).show()
+                showNetworkAlertDialog()
             }
         }
     }
 
+    private fun showNetworkAlertDialog() {
+        AlertDialog.Builder(activity).setTitle("No Internet Connection")
+            .setMessage("Please check your internet connection and try again")
+            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .setIcon(android.R.drawable.ic_dialog_alert).show()
+    }
+
+    private fun saveResponseInSharedPrefs() {
+        sharedPreferences = activity?.getSharedPreferences("weatherPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+        editor?.putString("five_day_weather_result", weatherJsonStringHolder)
+        editor?.apply()
+    }
+
     companion object {
         const val ZIPCODE = 80302
-        var fiveDayWeatherResult: FiveDayWeatherResult? = null
     }
 }
