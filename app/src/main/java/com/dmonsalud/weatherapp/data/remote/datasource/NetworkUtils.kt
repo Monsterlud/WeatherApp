@@ -1,9 +1,9 @@
-package com.dmonsalud.weatherapp.data.network.datasource
+package com.dmonsalud.weatherapp.data.remote.datasource
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
-class NetworkStatusChecker(
+class NetworkUtils(
     private val connectivityManager: ConnectivityManager?
 ) {
 

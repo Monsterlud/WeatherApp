@@ -1,9 +1,9 @@
-package com.dmonsalud.weatherapp.ui
+package com.dmonsalud.weatherapp.presentation.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dmonsalud.weatherapp.data.network.datasource.FiveDayWeatherResult
+import com.dmonsalud.weatherapp.data.remote.datasource.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.databinding.ItemListWeatherBinding
 
 class WeatherListAdapter(private val fiveDayWeatherResult: FiveDayWeatherResult) :

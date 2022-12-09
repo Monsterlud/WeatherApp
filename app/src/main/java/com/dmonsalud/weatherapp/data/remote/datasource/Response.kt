@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.data.network.datasource
+package com.dmonsalud.weatherapp.data.remote.datasource
 
 data class GeocodingApiResponse(
     var country: String,

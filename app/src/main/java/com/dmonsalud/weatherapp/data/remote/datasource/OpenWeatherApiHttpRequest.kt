@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.data.network.datasource
+package com.dmonsalud.weatherapp.data.remote.datasource
 
 import android.os.AsyncTask
 import android.util.Log
@@ -7,7 +7,8 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
-class HttpRequest(private val zipCode: Int) : AsyncTask<String, Unit, String>() {
+class OpenWeatherApiHttpRequest(private val zipCode: Int) : AsyncTask<String, Unit, String>() {
+
     var weatherJsonStringHolder = ""
 
     @Deprecated("Deprecated in Java")
@@ -53,6 +54,7 @@ class HttpRequest(private val zipCode: Int) : AsyncTask<String, Unit, String>() 
             Log.d(javaClass.simpleName, "doInBackground: $e: Failure")
             FAILURE
         }
+
     }
 
     companion object {
@@ -62,4 +64,5 @@ class HttpRequest(private val zipCode: Int) : AsyncTask<String, Unit, String>() 
         private const val FAILURE = "Http Request Failure"
         var fiveDayWeatherResult: FiveDayWeatherResult? = null
     }
+
 }
