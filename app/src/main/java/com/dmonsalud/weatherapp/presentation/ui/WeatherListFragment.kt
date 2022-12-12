@@ -95,12 +95,4 @@ class WeatherListFragment() : Fragment() {
             .setPositiveButton(android.R.string.ok) { _, _ -> }
             .setIcon(android.R.drawable.ic_dialog_alert).show()
     }
-
-    private fun saveResponseInSharedPrefs(key: String, value: String) {
-        sharedPreferences =
-            activity?.getSharedPreferences("weatherPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putString(key, value)
-        editor?.apply()
-    }
 }
