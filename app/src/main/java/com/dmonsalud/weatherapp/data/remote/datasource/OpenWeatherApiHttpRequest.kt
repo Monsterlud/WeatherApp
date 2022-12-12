@@ -2,6 +2,8 @@ package com.dmonsalud.weatherapp.data.remote.datasource
 
 import android.os.AsyncTask
 import android.util.Log
+import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
+import com.dmonsalud.weatherapp.model.GeocodingApiResponse
 import com.google.gson.Gson
 import java.io.IOException
 import java.net.HttpURLConnection
