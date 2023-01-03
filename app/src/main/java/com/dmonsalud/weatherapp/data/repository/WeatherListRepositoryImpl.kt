@@ -11,11 +11,11 @@ class WeatherListRepositoryImpl(
     private val localDataSourceImpl = LocalDataSourceImpl(context)
 
     override fun cacheWeatherResponseJson(key: String, value: String) {
-        localDataSourceImpl.saveWeatherPref(key, value)
+        localDataSourceImpl.saveWeatherForecast(key, value)
     }
 
     override fun retrieveWeatherResponseJson(key: String): String? {
-        return localDataSourceImpl.getWeatherPref(key)
+        return localDataSourceImpl.getWeatherForecast(key)
 
     }
 }

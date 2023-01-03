@@ -25,7 +25,6 @@ class WeatherListFragment() : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private lateinit var weatherJsonStringHolder: String
     val weatherListRepository = context?.let { WeatherListRepositoryImpl(it) }
-    private val uiUtils = UiUtils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +48,6 @@ class WeatherListFragment() : Fragment() {
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
-
         return binding.root
     }
 
@@ -83,10 +81,10 @@ class WeatherListFragment() : Fragment() {
         } else {
             // Alternatively, get the list of OpenWeatherApiResponse object from SharedPreferences
             sharedPreferences?.let {
-                val jsonStringFromPrefs =
+                val jsonStringFromLocalStorage =
                     weatherListRepository?.retrieveWeatherResponseJson(FIVE_DAY_WEATHER_RESULT)
                 val fiveDayWeatherResultFromPrefs =
-                    Gson().fromJson(jsonStringFromPrefs, FiveDayWeatherResult::class.java)
+                    Gson().fromJson(jsonStringFromLocalStorage, FiveDayWeatherResult::class.java)
                 binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResultFromPrefs)
             } ?: run {
                 showNetworkAlertDialog()

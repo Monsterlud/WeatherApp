@@ -11,14 +11,14 @@ class LocalDataSourceImpl(
     val weatherPreferences = context.getSharedPreferences(WEATHER_PREFERENCES, Context.MODE_PRIVATE)
 
 
-    override fun saveWeatherPref(key: String, value: String) {
+    override fun saveWeatherForecast(key: String, value: String) {
         with(weatherPreferences.edit()) {
             putString(key, value)
             apply()
         }
     }
 
-    override fun getWeatherPref(key: String): String? {
+    override fun getWeatherForecast(key: String): String? {
         return weatherPreferences.getString(key, "n/a")
     }
 }
