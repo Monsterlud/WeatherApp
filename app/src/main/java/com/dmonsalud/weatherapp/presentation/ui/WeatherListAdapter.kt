@@ -3,8 +3,8 @@ package com.dmonsalud.weatherapp.presentation.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.databinding.ItemListWeatherBinding
+import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 
 class WeatherListAdapter(private val fiveDayWeatherResult: FiveDayWeatherResult) :
     RecyclerView.Adapter<WeatherListAdapter.WeatherItemViewHolder>() {

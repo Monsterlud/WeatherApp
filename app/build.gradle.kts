@@ -68,14 +68,10 @@ dependencies {
 
     // Unit Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("androidx.test:core:1.4.0")
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
-//    testImplementation("androidx.test.ext:junit:1.1.3")
-//    testImplementation("androidx.test.ext:truth:1.4.0")
-//    testImplementation("androidx.test:runner:1.4.0")
+    testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation("io.mockk:android:1.13.2")
 
     // Instrumented Android Testing
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-//    androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.4")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 }

@@ -8,15 +8,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.OpenWeatherApiHttpRequest
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
 import com.dmonsalud.weatherapp.model.Constants.FIVE_DAY_WEATHER_RESULT
-import com.dmonsalud.weatherapp.model.Constants.ZIPCODE
+import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.google.gson.Gson
 
 class WeatherListFragment() : Fragment() {
@@ -25,6 +25,7 @@ class WeatherListFragment() : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private lateinit var weatherJsonStringHolder: String
     val weatherListRepository = context?.let { WeatherListRepositoryImpl(it) }
+    private val uiUtils = UiUtils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,13 @@ class WeatherListFragment() : Fragment() {
             container,
             false
         )
+
+        binding.zipCodeSubmitButton.setOnClickListener {
+            getFiveDayWeatherForecast(binding.etZipCode.text.toString().toInt())
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+
         return binding.root
     }
 
@@ -50,12 +58,9 @@ class WeatherListFragment() : Fragment() {
 
         val recyclerView = binding.rvWeatherList
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
-
-        getFiveDayWeatherForecast()
     }
 
-    private fun getFiveDayWeatherForecast() {
+    private fun getFiveDayWeatherForecast(zipCode: Int) {
         // Check to see if device has a network connection
         val connectivityManager =
             activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -64,8 +69,8 @@ class WeatherListFragment() : Fragment() {
          *  If the device has a network connection, make an HttpRequest to get the Json payload
          *  then save that payload to SharedPreferences
          */
-        if (NetworkUtils(connectivityManager).hasInternetConnection()) {
-            weatherJsonStringHolder = OpenWeatherApiHttpRequest(ZIPCODE).execute().get()
+        if (NetworkUtils().hasInternetConnection(connectivityManager)) {
+            weatherJsonStringHolder = OpenWeatherApiHttpRequest(zipCode).execute().get()
             weatherListRepository?.cacheWeatherResponseJson(FIVE_DAY_WEATHER_RESULT, weatherJsonStringHolder)
 
             /**
