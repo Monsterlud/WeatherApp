@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dmonsalud.weatherapp.R
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.OpenWeatherApiHttpRequest
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
@@ -28,7 +29,7 @@ class WeatherListFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.title = "WeatherApp Forecast"
+        activity?.title = getString(R.string.weatherapp_forecast)
     }
 
     override fun onCreateView(
