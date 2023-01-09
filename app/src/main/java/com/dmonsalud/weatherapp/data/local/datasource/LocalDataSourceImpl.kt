@@ -1,24 +1,21 @@
 package com.dmonsalud.weatherapp.data.local.datasource
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.dmonsalud.weatherapp.data.LocalDataSource
-import com.dmonsalud.weatherapp.model.Constants.WEATHER_PREFERENCES
+import com.dmonsalud.weatherapp.model.Constants.FIVE_DAY_WEATHER_RESULT
 
 class LocalDataSourceImpl(
-    context: Context
+    private val weatherPreferences: SharedPreferences
 ) : LocalDataSource {
 
-    val weatherPreferences = context.getSharedPreferences(WEATHER_PREFERENCES, Context.MODE_PRIVATE)
-
-
-    override fun saveWeatherForecast(key: String, value: String) {
-        with(weatherPreferences.edit()) {
-            putString(key, value)
+    override fun saveWeatherForecast(value: String) {
+        return with(weatherPreferences.edit()) {
+            putString(FIVE_DAY_WEATHER_RESULT, value)
             apply()
         }
     }
 
-    override fun getWeatherForecast(key: String): String? {
-        return weatherPreferences.getString(key, "n/a")
+    override fun getWeatherForecast(): String? {
+        return weatherPreferences.getString(FIVE_DAY_WEATHER_RESULT, "n/a")
     }
 }

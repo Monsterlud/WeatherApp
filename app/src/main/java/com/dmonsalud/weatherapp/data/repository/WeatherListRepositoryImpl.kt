@@ -1,21 +1,17 @@
 package com.dmonsalud.weatherapp.data.repository
 
-import android.content.Context
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
+import com.dmonsalud.weatherapp.data.LocalDataSource
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
 
 class WeatherListRepositoryImpl(
-    context: Context
+    private val localDataSource: LocalDataSource
 ) : WeatherListRepository {
 
-    private val localDataSourceImpl = LocalDataSourceImpl(context)
-
-    override fun cacheWeatherResponseJson(key: String, value: String) {
-        localDataSourceImpl.saveWeatherForecast(key, value)
+    override fun cacheWeatherResponseJson(value: String) {
+        return localDataSource.saveWeatherForecast(value)
     }
 
-    override fun retrieveWeatherResponseJson(key: String): String? {
-        return localDataSourceImpl.getWeatherForecast(key)
-
+    override fun retrieveWeatherResponseJson(): String? {
+        return localDataSource.getWeatherForecast()
     }
 }

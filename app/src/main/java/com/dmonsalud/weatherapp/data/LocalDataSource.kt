@@ -2,7 +2,7 @@ package com.dmonsalud.weatherapp.data
 
 interface LocalDataSource {
 
-    fun saveWeatherForecast(key: String, value: String)
+    fun saveWeatherForecast(value: String)
 
-    fun getWeatherForecast(key: String): String?
+    fun getWeatherForecast(): String?
 }
