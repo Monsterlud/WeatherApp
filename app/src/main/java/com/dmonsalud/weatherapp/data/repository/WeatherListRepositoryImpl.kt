@@ -7,7 +7,7 @@ class WeatherListRepositoryImpl(
     private val localDataSource: LocalDataSource
 ) : WeatherListRepository {
 
-    override fun cacheWeatherResponseJson(value: String) {
+    override fun cacheWeatherResponseJson(value: String?) {
         return localDataSource.saveWeatherForecast(value)
     }
 

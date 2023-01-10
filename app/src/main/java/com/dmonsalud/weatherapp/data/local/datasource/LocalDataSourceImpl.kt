@@ -8,7 +8,7 @@ class LocalDataSourceImpl(
     private val weatherPreferences: SharedPreferences
 ) : LocalDataSource {
 
-    override fun saveWeatherForecast(value: String) {
+    override fun saveWeatherForecast(value: String?) {
         return with(weatherPreferences.edit()) {
             putString(FIVE_DAY_WEATHER_RESULT, value)
             apply()

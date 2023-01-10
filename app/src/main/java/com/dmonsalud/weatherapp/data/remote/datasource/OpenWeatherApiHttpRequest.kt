@@ -2,7 +2,6 @@ package com.dmonsalud.weatherapp.data.remote.datasource
 
 import android.os.AsyncTask
 import android.util.Log
-import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.model.GeocodingApiResponse
 import com.google.gson.Gson
 import java.io.IOException
@@ -56,15 +55,11 @@ class OpenWeatherApiHttpRequest(private val zipCode: Int) : AsyncTask<String, Un
             Log.d(javaClass.simpleName, "doInBackground: $e: Failure")
             FAILURE
         }
-
     }
 
     companion object {
         private const val GEOAPIKEY = "6ac4a867247e4553cb55984a2afce83e"
         private const val WEATHERAPIKEY = "c55cf80588aaf17941120bfbc7e366e8"
-        private const val SUCCESS = "Http Request Successful"
         private const val FAILURE = "Http Request Failure"
-        var fiveDayWeatherResult: FiveDayWeatherResult? = null
     }
-
 }
