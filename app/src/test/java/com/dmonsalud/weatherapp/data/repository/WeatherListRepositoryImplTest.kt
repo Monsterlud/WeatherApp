@@ -17,16 +17,16 @@ internal class WeatherListRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN user saves an empty string as weather forecast THEN key-value pair is not saved to SharedPreferences`() {
+    fun `GIVEN user saves an empty string as weather forecast THEN value saved to SharedPreferences is an empty string`() {
         weatherListRepositoryImpl.cacheWeatherResponseJson("")
         val returnString = weatherListRepositoryImpl.retrieveWeatherResponseJson()
-        Assertions.assertNotEquals(testString, returnString)
+        Assertions.assertEquals("", returnString)
     }
 
     @Test
-    fun `GIVEN user saves an null value as weather forecast THEN key-value pair is not saved to SharedPreferences`() {
+    fun `GIVEN user saves an null value as weather forecast THEN value saved to SharedPreferences is null`() {
         weatherListRepositoryImpl.cacheWeatherResponseJson(null)
         val returnString = weatherListRepositoryImpl.retrieveWeatherResponseJson()
-        Assertions.assertNotEquals(testString, returnString)
+        Assertions.assertEquals(null, returnString)
     }
 }
