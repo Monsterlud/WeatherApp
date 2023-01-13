@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Test
 
 internal class LocalDataSourceImplTest {
 
+    /**
+     * This test is to show how creating a complete test double of a class like
+     * SharedPreferences can also be used to mock a test class
+     */
+
     private val sharedPreferencesFake = SharedPreferencesFake()
     private val localDataSourceImpl = LocalDataSourceImpl(sharedPreferencesFake)
     private val testString = "test value"

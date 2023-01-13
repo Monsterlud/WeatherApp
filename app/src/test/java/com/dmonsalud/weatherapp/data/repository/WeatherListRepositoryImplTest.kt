@@ -1,15 +1,12 @@
 package com.dmonsalud.weatherapp.data.repository
 
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
-import com.dmonsalud.weatherapp.data.local.datasource.SharedPreferencesFake
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 internal class WeatherListRepositoryImplTest {
 
-    private val sharedPreferencesFake = SharedPreferencesFake()
-    private val localDataSourceImpl = LocalDataSourceImpl(sharedPreferencesFake)
-    private val weatherListRepositoryImpl = WeatherListRepositoryImpl(localDataSourceImpl)
+    private val localDataSourceFake = LocalDataSourceFake()
+    private val weatherListRepositoryImpl = WeatherListRepositoryImpl(localDataSourceFake)
     private val testString = "test value"
 
     @Test
