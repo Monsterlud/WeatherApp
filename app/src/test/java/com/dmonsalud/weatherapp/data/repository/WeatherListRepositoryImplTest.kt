@@ -17,16 +17,16 @@ internal class WeatherListRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN user saves an empty string as weather forecast THEN value saved to SharedPreferences is an empty string`() {
-        weatherListRepositoryImpl.cacheWeatherResponseJson("")
-        val returnString = weatherListRepositoryImpl.retrieveWeatherResponseJson()
-        Assertions.assertEquals("", returnString)
+    fun `GIVEN user saves an empty string as weather forecast THEN an Exception is thrown`() {
+        Assertions.assertThrows(Exception::class.java) {
+            weatherListRepositoryImpl.cacheWeatherResponseJson("")
+        }
     }
 
     @Test
-    fun `GIVEN user saves an null value as weather forecast THEN value saved to SharedPreferences is null`() {
-        weatherListRepositoryImpl.cacheWeatherResponseJson(null)
-        val returnString = weatherListRepositoryImpl.retrieveWeatherResponseJson()
-        Assertions.assertEquals(null, returnString)
+    fun `GIVEN user saves an null value as weather forecast THEN an Exception is thrown`() {
+        Assertions.assertThrows(Exception::class.java) {
+            weatherListRepositoryImpl.cacheWeatherResponseJson(null)
+        }
     }
 }
