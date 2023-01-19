@@ -70,6 +70,11 @@ dependencies {
     implementation("com.google.android.material:material:1.7.0")
     implementation("com.google.code.gson:gson:2.9.0")
 
+    // Koin
+    implementation("io.insert-koin:koin-core:3.3.2")
+    implementation("io.insert-koin:koin-android:3.3.2")
+    implementation("io.insert-koin:koin-test:3.3.2")
+
     // Unit Testing - JUnit 5
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")

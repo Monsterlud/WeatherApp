@@ -2,6 +2,7 @@ package com.dmonsalud.weatherapp.presentation.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,23 +12,22 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmonsalud.weatherapp.R
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.OpenWeatherApiHttpRequest
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
-import com.dmonsalud.weatherapp.model.Constants
 import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.google.gson.Gson
+import org.koin.android.ext.android.inject
 
 class WeatherListFragment() : Fragment() {
 
     private lateinit var binding: FragmentListWeatherBinding
-    private val sharedPreferences =
-        this.context?.getSharedPreferences(Constants.WEATHER_PREFERENCES, Context.MODE_PRIVATE)
+
+    private val sharedPreferences by inject<SharedPreferences>()
+    private val weatherListRepository by inject<WeatherListRepositoryImpl>()
+
     private lateinit var weatherJsonStringHolder: String
-    private val localDataSource = sharedPreferences?.let { LocalDataSourceImpl(it) }
-    private val weatherListRepository = localDataSource?.let { WeatherListRepositoryImpl(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
