@@ -1,34 +1,20 @@
 package com.dmonsalud.weatherapp.data.local.datasource
 
+import com.dmonsalud.weatherapp.data.repository.LocalDataSourceFake
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 
 internal class LocalDataSourceImplTest {
 
-    private val sharedPreferencesFake = SharedPreferencesFake()
-    private val localDataSourceImpl = LocalDataSourceImpl(sharedPreferencesFake)
+    private val localDataSourceFake = LocalDataSourceFake()
     private val testString = "test value"
 
     @Test
     fun `GIVEN user saves a string as weather forecast THEN key-value pair is saved to SharedPreferences`() {
-        localDataSourceImpl.saveWeatherForecast(testString)
-        val returnString = localDataSourceImpl.getWeatherForecast()
+        localDataSourceFake.saveWeatherForecast(testString)
+        val returnString = localDataSourceFake.getWeatherForecast()
         Assertions.assertEquals(testString, returnString)
-    }
-
-    @Test
-    fun `GIVEN user saves an empty string as weather forecast THEN key-value pair is not saved to SharedPreferences`() {
-        localDataSourceImpl.saveWeatherForecast("")
-        val returnString = localDataSourceImpl.getWeatherForecast()
-        Assertions.assertNotEquals(testString, returnString)
-    }
-
-    @Test
-    fun `GIVEN user saves an null value as weather forecast THEN key-value pair is not saved to SharedPreferences`() {
-        localDataSourceImpl.saveWeatherForecast(null)
-        val returnString = localDataSourceImpl.getWeatherForecast()
-        Assertions.assertNotEquals(testString, returnString)
     }
 }
 

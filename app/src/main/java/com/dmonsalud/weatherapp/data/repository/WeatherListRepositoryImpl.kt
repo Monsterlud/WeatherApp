@@ -8,7 +8,11 @@ class WeatherListRepositoryImpl(
 ) : WeatherListRepository {
 
     override fun cacheWeatherResponseJson(value: String?) {
-        return localDataSource.saveWeatherForecast(value)
+        if (!value.isNullOrEmpty()) {
+            return localDataSource.saveWeatherForecast(value)
+        } else {
+            throw Exception("Cannot save null value or empty string.")
+        }
     }
 
     override fun retrieveWeatherResponseJson(): String? {
