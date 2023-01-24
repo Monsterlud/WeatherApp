@@ -43,6 +43,7 @@
                 android:inputType="number"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/zipCode_submit_button"
                 android:layout_width="120dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="20dp"

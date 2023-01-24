@@ -1,30 +1,37 @@
-package com.dmonsalud.weatherapp.ui
+package com.dmonsalud.weatherapp.presentation.ui
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dmonsalud.weatherapp.data.network.datasource.FiveDayWeatherResult
-import com.dmonsalud.weatherapp.data.network.datasource.HttpRequest
-import com.dmonsalud.weatherapp.data.network.datasource.NetworkStatusChecker
+import com.dmonsalud.weatherapp.R
+import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
+import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
+import com.dmonsalud.weatherapp.data.remote.datasource.OpenWeatherApiHttpRequest
+import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
+import com.dmonsalud.weatherapp.model.Constants
+import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.google.gson.Gson
 
-class WeatherListFragment : Fragment() {
+class WeatherListFragment() : Fragment() {
 
     private lateinit var binding: FragmentListWeatherBinding
-    private var sharedPreferences: SharedPreferences? = null
+    private val sharedPreferences =
+        this.context?.getSharedPreferences(Constants.WEATHER_PREFERENCES, Context.MODE_PRIVATE)
     private lateinit var weatherJsonStringHolder: String
+    private val localDataSource = sharedPreferences?.let { LocalDataSourceImpl(it) }
+    private val weatherListRepository = localDataSource?.let { WeatherListRepositoryImpl(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.title = "WeatherApp Forecast"
+        activity?.title = getString(R.string.weatherapp_forecast)
     }
 
     override fun onCreateView(
@@ -38,6 +45,12 @@ class WeatherListFragment : Fragment() {
             container,
             false
         )
+
+        binding.zipCodeSubmitButton.setOnClickListener {
+            getFiveDayWeatherForecast(binding.etZipCode.text.toString().toInt())
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+        }
         return binding.root
     }
 
@@ -46,23 +59,20 @@ class WeatherListFragment : Fragment() {
 
         val recyclerView = binding.rvWeatherList
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
-        getFiveDayWeatherForecast()
     }
 
-    private fun getFiveDayWeatherForecast() {
+    private fun getFiveDayWeatherForecast(zipCode: Int) {
         // Check to see if device has a network connection
         val connectivityManager =
             activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkStatusChecker = NetworkStatusChecker(connectivityManager)
 
         /**
          *  If the device has a network connection, make an HttpRequest to get the Json payload
          *  then save that payload to SharedPreferences
          */
-        if (networkStatusChecker.hasInternetConnection()) {
-            weatherJsonStringHolder = HttpRequest(ZIPCODE).execute().get()
-            saveResponseInSharedPrefs(FIVE_DAY_WEATHER_RESULT, weatherJsonStringHolder)
+        if (NetworkUtils().hasInternetConnection(connectivityManager)) {
+            weatherJsonStringHolder = OpenWeatherApiHttpRequest(zipCode).execute().get()
+            weatherListRepository?.cacheWeatherResponseJson(weatherJsonStringHolder)
 
             /**
              * Translate Json to create a list of OpenWeatherApiResponse objects
@@ -74,10 +84,10 @@ class WeatherListFragment : Fragment() {
         } else {
             // Alternatively, get the list of OpenWeatherApiResponse object from SharedPreferences
             sharedPreferences?.let {
-                val jsonStringFromPrefs =
-                    sharedPreferences?.getString("five_day_weather_result", "N/A")
+                val jsonStringFromLocalStorage =
+                    weatherListRepository?.retrieveWeatherResponseJson()
                 val fiveDayWeatherResultFromPrefs =
-                    Gson().fromJson(jsonStringFromPrefs, FiveDayWeatherResult::class.java)
+                    Gson().fromJson(jsonStringFromLocalStorage, FiveDayWeatherResult::class.java)
                 binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResultFromPrefs)
             } ?: run {
                 showNetworkAlertDialog()
@@ -90,18 +100,5 @@ class WeatherListFragment : Fragment() {
             .setMessage("Please check your internet connection and try again")
             .setPositiveButton(android.R.string.ok) { _, _ -> }
             .setIcon(android.R.drawable.ic_dialog_alert).show()
-    }
-
-    private fun saveResponseInSharedPrefs(key: String, value: String) {
-        sharedPreferences =
-            activity?.getSharedPreferences("weatherPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putString(key, value)
-        editor?.apply()
-    }
-
-    companion object {
-        const val ZIPCODE = 80302
-        const val FIVE_DAY_WEATHER_RESULT = "five_day_weather_result"
     }
 }

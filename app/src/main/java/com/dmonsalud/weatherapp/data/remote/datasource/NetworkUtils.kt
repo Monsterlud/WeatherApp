@@ -1,13 +1,11 @@
-package com.dmonsalud.weatherapp.data.network.datasource
+package com.dmonsalud.weatherapp.data.remote.datasource
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
-class NetworkStatusChecker(
-    private val connectivityManager: ConnectivityManager?
-) {
+class NetworkUtils {
 
-    fun hasInternetConnection(): Boolean {
+    fun hasInternetConnection(connectivityManager: ConnectivityManager?): Boolean {
         val activeNetwork = connectivityManager?.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
 
