@@ -56,6 +56,9 @@ tasks.withType<Test> {
 }
 
 dependencies {
+    val koinVersion = "3.3.2"
+    val espressoVersion = "3.5.1"
+    val mockkVersion = "1.13.3"
 
     // AndroidX
     implementation("androidx.core:core-ktx:1.9.0")
@@ -71,16 +74,18 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
 
     // Koin
-    implementation("io.insert-koin:koin-core:3.3.2")
-    implementation("io.insert-koin:koin-android:3.3.2")
-    implementation("io.insert-koin:koin-test:3.3.2")
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-test:$koinVersion")
 
     // Unit Testing - JUnit 5
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("io.mockk:mockk:$mockkVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+
 
     // Instrumented Android Testing
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
 }

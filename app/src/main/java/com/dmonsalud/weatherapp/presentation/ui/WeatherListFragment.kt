@@ -14,18 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmonsalud.weatherapp.R
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.OpenWeatherApiHttpRequest
-import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
 import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherListFragment() : Fragment() {
 
     private lateinit var binding: FragmentListWeatherBinding
 
     private val sharedPreferences by inject<SharedPreferences>()
-    private val weatherListRepository by inject<WeatherListRepositoryImpl>()
+    private val weatherListViewModel by viewModel<WeatherListViewModel>()
 
     private lateinit var weatherJsonStringHolder: String
 
@@ -72,7 +72,7 @@ class WeatherListFragment() : Fragment() {
          */
         if (NetworkUtils().hasInternetConnection(connectivityManager)) {
             weatherJsonStringHolder = OpenWeatherApiHttpRequest(zipCode).execute().get()
-            weatherListRepository?.cacheWeatherResponseJson(weatherJsonStringHolder)
+            weatherListViewModel?.saveWeatherResponseJson(weatherJsonStringHolder)
 
             /**
              * Translate Json to create a list of OpenWeatherApiResponse objects
@@ -85,7 +85,7 @@ class WeatherListFragment() : Fragment() {
             // Alternatively, get the list of OpenWeatherApiResponse object from SharedPreferences
             sharedPreferences?.let {
                 val jsonStringFromLocalStorage =
-                    weatherListRepository?.retrieveWeatherResponseJson()
+                    weatherListViewModel?.getWeatherResponseJson()
                 val fiveDayWeatherResultFromPrefs =
                     Gson().fromJson(jsonStringFromLocalStorage, FiveDayWeatherResult::class.java)
                 binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResultFromPrefs)
