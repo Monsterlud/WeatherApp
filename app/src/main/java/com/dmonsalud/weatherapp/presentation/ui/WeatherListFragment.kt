@@ -72,7 +72,7 @@ class WeatherListFragment() : Fragment() {
          */
         if (NetworkUtils().hasInternetConnection(connectivityManager)) {
             weatherJsonStringHolder = OpenWeatherApiHttpRequest(zipCode).execute().get()
-            weatherListViewModel?.saveWeatherResponseJson(weatherJsonStringHolder)
+            weatherListViewModel.saveWeatherResponseJson(weatherJsonStringHolder)
 
             /**
              * Translate Json to create a list of OpenWeatherApiResponse objects
@@ -85,7 +85,7 @@ class WeatherListFragment() : Fragment() {
             // Alternatively, get the list of OpenWeatherApiResponse object from SharedPreferences
             sharedPreferences?.let {
                 val jsonStringFromLocalStorage =
-                    weatherListViewModel?.getWeatherResponseJson()
+                    weatherListViewModel?.responseJson
                 val fiveDayWeatherResultFromPrefs =
                     Gson().fromJson(jsonStringFromLocalStorage, FiveDayWeatherResult::class.java)
                 binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResultFromPrefs)

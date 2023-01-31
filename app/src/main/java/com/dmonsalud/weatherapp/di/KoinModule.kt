@@ -18,7 +18,7 @@ val koinModule = module {
     single { getSharedPreferences(androidApplication()) }
     single { LocalDataSourceImpl(get()) } bind LocalDataSource::class
     single { WeatherListRepositoryImpl(get()) } bind (WeatherListRepository::class)
-    viewModel { WeatherListViewModel(get())}
+    viewModel { WeatherListViewModel(get()) }
 }
 
 private fun getSharedPreferences(application: Application): SharedPreferences {

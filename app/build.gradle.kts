@@ -68,6 +68,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation("androidx.activity:activity-ktx:1.6.1")
+    testImplementation("androidx.test:core-ktx:1.5.0")
 
     // Google
     implementation("com.google.android.material:material:1.7.0")
@@ -77,8 +78,9 @@ dependencies {
     implementation("io.insert-koin:koin-core:$koinVersion")
     implementation("io.insert-koin:koin-android:$koinVersion")
     implementation("io.insert-koin:koin-test:$koinVersion")
+    testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
 
-    // Unit Testing - JUnit 5
+    // Unit Testing - JUnit 4/5
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testImplementation("io.mockk:mockk:$mockkVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
