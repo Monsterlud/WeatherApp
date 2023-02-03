@@ -59,7 +59,7 @@ dependencies {
     val koinVersion = "3.3.2"
     val espressoVersion = "3.5.1"
     val mockkVersion = "1.13.3"
-    val ktorVersion = "2.2.3"
+    val ktorVersion = "1.6.3"
 
     // AndroidX
     implementation("androidx.core:core-ktx:1.9.0")
@@ -86,7 +86,7 @@ dependencies {
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
 
-    // Miscellaneous
+    // Jetbrains
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
     // Unit Testing - JUnit 4/5

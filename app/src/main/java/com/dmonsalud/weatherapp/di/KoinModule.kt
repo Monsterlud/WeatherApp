@@ -4,13 +4,21 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.dmonsalud.weatherapp.data.LocalDataSource
+import com.dmonsalud.weatherapp.data.RemoteDataSource
 import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
+import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
+import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
+import com.dmonsalud.weatherapp.data.WeatherService
+import com.dmonsalud.weatherapp.data.remote.datasource.WeatherServiceImpl
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.model.Constants
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
 import com.dmonsalud.weatherapp.presentation.ui.WeatherListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
@@ -20,12 +28,13 @@ val koinModule = module {
     val moduleInstance = KoinModule()
     single { moduleInstance.getSharedPreferences(androidApplication()) }
     single { LocalDataSourceImpl(get()) } bind LocalDataSource::class
-    single { WeatherListRepositoryImpl(get()) } bind (WeatherListRepository::class)
-    viewModel { WeatherListViewModel(get()) }
+    single { RemoteDataSourceImpl(get()) } bind RemoteDataSource::class
+    single { WeatherListRepositoryImpl(get(), get()) } bind (WeatherListRepository::class)
+    viewModel { WeatherListViewModel(get(), get()) }
 
-    single(qualifier = null) { moduleInstance.ktorClient()}
-
-
+    single(qualifier = null) { moduleInstance.ktorClient() }
+    single { WeatherServiceImpl(get()) } bind WeatherService::class
+    single { NetworkUtils() }
 }
 
 class KoinModule {
@@ -37,7 +46,13 @@ class KoinModule {
         )
     }
 
-    fun ktorClient() = HttpClient(Android)
-
-
+    fun ktorClient() = HttpClient(Android) {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
+        }
+    }
 }
