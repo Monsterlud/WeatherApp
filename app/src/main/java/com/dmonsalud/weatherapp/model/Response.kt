@@ -1,5 +1,9 @@
 package com.dmonsalud.weatherapp.model
 
+/**
+ * Geocoding Api Response
+ */
+
 data class GeocodingApiResponse(
     var country: String,
     var lat: Double,
@@ -7,6 +11,10 @@ data class GeocodingApiResponse(
     var name: String,
     var zip: String
 )
+
+/**
+ * Open Weather Api Response
+ */
 
 data class FiveDayWeatherResult(
     val list: List<OpenWeatherApiResponse>
