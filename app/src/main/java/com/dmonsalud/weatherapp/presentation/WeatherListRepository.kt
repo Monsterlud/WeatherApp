@@ -8,6 +8,6 @@ interface WeatherListRepository {
 
     suspend fun getGeocodingResponseJson(zipCode: Int): String?
 
-    suspend fun getWeatherResponseJsonFromOpenWeatherApi(long: String, lat: String): String?
+    suspend fun getWeatherResponseJsonFromOpenWeatherApi(lat: String, long: String): String?
 
 }

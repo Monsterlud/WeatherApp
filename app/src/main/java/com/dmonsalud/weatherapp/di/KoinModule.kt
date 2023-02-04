@@ -3,6 +3,7 @@ package com.dmonsalud.weatherapp.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.dmonsalud.weatherapp.data.LocalDataSource
 import com.dmonsalud.weatherapp.data.RemoteDataSource
 import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
@@ -18,6 +19,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.observer.ResponseObserver
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -53,6 +55,15 @@ class KoinModule {
                 isLenient = true
                 ignoreUnknownKeys = true
             })
+        }
+        install(ResponseObserver) {
+            onResponse { response ->
+                Log.i("KOIN", "${response.status.value}")
+            }
+        }
+        engine {
+            connectTimeout = Constants.TIMEOUT
+            socketTimeout = Constants.TIMEOUT
         }
     }
 }

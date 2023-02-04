@@ -7,7 +7,7 @@ interface WeatherService {
     ): String
 
     suspend fun getOpenWeatherApiResponse(
-        long: String,
-        lat: String
+        lat: String,
+        long: String
     ): String
 }

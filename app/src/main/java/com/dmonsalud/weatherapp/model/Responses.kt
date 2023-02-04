@@ -1,9 +1,12 @@
 package com.dmonsalud.weatherapp.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Geocoding Api Response
  */
 
+@Serializable
 data class GeocodingApiResponse(
     var country: String,
     var lat: Double,
@@ -16,10 +19,12 @@ data class GeocodingApiResponse(
  * Open Weather Api Response
  */
 
+@Serializable
 data class FiveDayWeatherResult(
     val list: List<OpenWeatherApiResponse>
 )
 
+@Serializable
 data class OpenWeatherApiResponse(
     var clouds: Clouds,
     var dt: Int,
@@ -33,10 +38,12 @@ data class OpenWeatherApiResponse(
     var wind: Wind
 )
 
+@Serializable
 data class Clouds(
     var all: Int
 )
 
+@Serializable
 data class Main(
     var feels_like: Double,
     var grnd_level: Int,
@@ -49,14 +56,17 @@ data class Main(
     var temp_min: Double
 )
 
+@Serializable
 data class Rain(
     var `3h`: Double
 )
 
+@Serializable
 data class Sys(
     var pod: String
 )
 
+@Serializable
 data class Weather(
     var description: String,
     var icon: String,
@@ -64,6 +74,7 @@ data class Weather(
     var main: String
 )
 
+@Serializable
 data class Wind(
     var deg: Int,
     var gust: Double,

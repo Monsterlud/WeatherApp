@@ -30,12 +30,12 @@ class WeatherListViewModel(
      * Remote Network Calls
      */
 
-    suspend fun getGeocodingResponseFromZipCode(zipCode: Int) {
-        weatherListRepository.getGeocodingResponseJson(zipCode)
+    suspend fun getGeocodingResponseFromZipCode(zipCode: Int): String? {
+        return weatherListRepository.getGeocodingResponseJson(zipCode)
     }
 
-    suspend fun getOpenWeatherResponse(lat: String, long: String) {
-        weatherListRepository.getWeatherResponseJsonFromOpenWeatherApi(lat, long)
+    suspend fun getOpenWeatherResponse(lat: String, long: String): String? {
+        return weatherListRepository.getWeatherResponseJsonFromOpenWeatherApi(lat, long)
     }
 
     /**
@@ -46,15 +46,14 @@ class WeatherListViewModel(
         val gson = Gson()
         var weatherJsonStringHolder = ""
         if (networkUtils.hasInternetConnection(connectivityManager)) {
-            val geoJsonStringHolder = weatherListRepository.getGeocodingResponseJson(zipCode)
+            val geoJsonStringHolder = getGeocodingResponseFromZipCode(zipCode)
             val geoResult = gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
             val lat = geoResult.lat
             val long = geoResult.lon
 
             weatherJsonStringHolder =
-                weatherListRepository.getWeatherResponseJsonFromOpenWeatherApi(lat.toString(), long.toString())
+                getOpenWeatherResponse(lat.toString(), long.toString())
                     .toString()
-
         }
         return gson.fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
     }
