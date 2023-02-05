@@ -45,6 +45,7 @@ class WeatherListViewModel(
     suspend fun getFiveDayWeatherForecast(zipCode: Int, connectivityManager: ConnectivityManager): FiveDayWeatherResult {
         val gson = Gson()
         var weatherJsonStringHolder = ""
+        var fiveDayWeatherResult: FiveDayWeatherResult
         if (networkUtils.hasInternetConnection(connectivityManager)) {
             val geoJsonStringHolder = getGeocodingResponseFromZipCode(zipCode)
             val geoResult = gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
@@ -54,7 +55,10 @@ class WeatherListViewModel(
             weatherJsonStringHolder =
                 getOpenWeatherResponse(lat.toString(), long.toString())
                     .toString()
+            fiveDayWeatherResult = gson.fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
+        } else {
+            fiveDayWeatherResult = gson.fromJson(responseJsonFromSharedPrefs, FiveDayWeatherResult::class.java)
         }
-        return gson.fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
+        return fiveDayWeatherResult
     }
 }
