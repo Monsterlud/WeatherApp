@@ -87,7 +87,7 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
 
     // Jetbrains
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 
     // Unit Testing - JUnit 4/5
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")

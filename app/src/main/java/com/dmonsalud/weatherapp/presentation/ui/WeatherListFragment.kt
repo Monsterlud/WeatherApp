@@ -41,9 +41,10 @@ class WeatherListFragment() : Fragment() {
             val connectivityManager =
                 activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             lifecycleScope.launch {
-                weatherListViewModel.getFiveDayWeatherForecast(
+                val fiveDayWeatherForecast = weatherListViewModel.getFiveDayWeatherForecast(
                     binding.etZipCode.text.toString().toInt(), connectivityManager
                 )
+                binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherForecast)
             }
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
@@ -56,5 +57,6 @@ class WeatherListFragment() : Fragment() {
 
         val recyclerView = binding.rvWeatherList
         recyclerView.layoutManager = LinearLayoutManager(activity)
+
     }
 }
