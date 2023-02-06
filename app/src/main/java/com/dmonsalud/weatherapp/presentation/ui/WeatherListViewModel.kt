@@ -12,30 +12,15 @@ class WeatherListViewModel(
     private val weatherListRepository: WeatherListRepository,
     private val networkUtils: NetworkUtils
 ): ViewModel() {
-    /**
-     * Local Caching in SharedPreferences
-     */
 
     val responseJsonFromSharedPrefs = weatherListRepository.retrieveWeatherResponseJsonFromSharedPrefs()
-
-    fun saveWeatherResponseJsonToSharedPrefs(value: String?) {
-        if (!value.isNullOrEmpty()) {
-            return weatherListRepository.cacheWeatherResponseJsonToSharedPrefs(value)
-        } else {
-            throw Exception("Cannot save null value or empty string.")
-        }
-    }
-
-    /**
-     * Remote Network Calls
-     */
 
     suspend fun getGeocodingResponseFromZipCode(zipCode: Int): String? {
         return weatherListRepository.getGeocodingResponseJson(zipCode)
     }
 
     suspend fun getOpenWeatherResponse(lat: String, long: String): String? {
-        return weatherListRepository.getWeatherResponseJsonFromOpenWeatherApi(lat, long)
+        return weatherListRepository.getWeatherResponseJson(lat, long)
     }
 
     /**

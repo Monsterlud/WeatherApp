@@ -10,7 +10,7 @@ class WeatherListRepositoryImpl(
 ) : WeatherListRepository {
 
     /**
-     * SharedPreferences
+     * Local Data From SharedPreferences
      */
 
     override fun cacheWeatherResponseJsonToSharedPrefs(value: String?) {
@@ -36,7 +36,7 @@ class WeatherListRepositoryImpl(
         return remoteDataSource.getGeocodingResponseFromApi(zipCode)
     }
 
-    override suspend fun getWeatherResponseJsonFromOpenWeatherApi(
+    override suspend fun getWeatherResponseJson(
         lat: String,
         long: String
     ): String? {

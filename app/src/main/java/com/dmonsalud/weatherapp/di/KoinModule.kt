@@ -9,8 +9,6 @@ import com.dmonsalud.weatherapp.data.RemoteDataSource
 import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
-import com.dmonsalud.weatherapp.data.WeatherService
-import com.dmonsalud.weatherapp.data.remote.datasource.WeatherServiceImpl
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.model.Constants
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
@@ -35,7 +33,6 @@ val koinModule = module {
     viewModel { WeatherListViewModel(get(), get()) }
 
     single(qualifier = null) { moduleInstance.ktorClient() }
-    single { WeatherServiceImpl(get()) } bind WeatherService::class
     single { NetworkUtils() }
 }
 
@@ -50,11 +47,14 @@ class KoinModule {
 
     fun ktorClient() = HttpClient(Android) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-            })
+            serializer = KotlinxSerializer(
+                Json {
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                    encodeDefaults = true
+                }
+            )
         }
         install(ResponseObserver) {
             onResponse { response ->

@@ -1,8 +1,6 @@
 package com.dmonsalud.weatherapp.presentation.ui
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,17 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmonsalud.weatherapp.R
 import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherListFragment() : Fragment() {
 
     private lateinit var binding: FragmentListWeatherBinding
-
-    private val sharedPreferences by inject<SharedPreferences>()
     private val weatherListViewModel by viewModel<WeatherListViewModel>()
-
-    private lateinit var weatherJsonStringHolder: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +56,5 @@ class WeatherListFragment() : Fragment() {
 
         val recyclerView = binding.rvWeatherList
         recyclerView.layoutManager = LinearLayoutManager(activity)
-    }
-
-    private fun showNetworkAlertDialog() {
-        AlertDialog.Builder(activity).setTitle("No Internet Connection")
-            .setMessage("Please check your internet connection and try again")
-            .setPositiveButton(android.R.string.ok) { _, _ -> }
-            .setIcon(android.R.drawable.ic_dialog_alert).show()
     }
 }
