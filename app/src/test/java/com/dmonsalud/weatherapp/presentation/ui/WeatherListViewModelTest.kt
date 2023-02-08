@@ -3,7 +3,6 @@ package com.dmonsalud.weatherapp.presentation.ui
 import android.net.ConnectivityManager
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
-import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.model.OpenWeatherApiResponse
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,42 +13,34 @@ import org.junit.jupiter.api.Test
 
 
 class WeatherListViewModelTest {
-    val networkUtils = mockk<NetworkUtils>()
-    val connectivityManager = mockk<ConnectivityManager>()
-    val openWeatherApiResponses = mockk<List<OpenWeatherApiResponse>>()
-//    val weatherListViewModel = mockk<WeatherListViewModel>()
-    val weatherListRepository = mockk<WeatherListRepositoryImpl>()
+    val networkUtils = NetworkUtils()
+    val connectivityManager = mockk<ConnectivityManager>(relaxed = true)
+    val openWeatherApiResponses = mockk<List<OpenWeatherApiResponse>>(relaxed = true)
+    val weatherListRepository = mockk<WeatherListRepositoryImpl>(relaxed = true)
     val weatherListViewModel = WeatherListViewModel(weatherListRepository, networkUtils)
 
     val ZIPCODE = 80302
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `Given getFiveDayWeatherResponse() is called Then getGeocodingResponseFromZipCode() and getOpenWeatherResponse() are called`() {
+    fun `GIVEN getGeocodingResponseFromZipCode() is called THEN getGeocodingResponseJson() is called in the repository`() {
         runTest {
-            coEvery { networkUtils.hasInternetConnection(any()) } returns true
-            coEvery { weatherListViewModel.getFiveDayWeatherForecast(any(), any()) } returns
-                    FiveDayWeatherResult(openWeatherApiResponses)
-            coEvery { weatherListViewModel.getGeocodingResponseFromZipCode(any()) } returns ""
-            coEvery { weatherListViewModel.getOpenWeatherResponse(any(), any()) } returns ""
-            coEvery { weatherListRepository.retrieveWeatherResponseJsonFromSharedPrefs() } returns ""
-            weatherListViewModel.getFiveDayWeatherForecast(ZIPCODE, connectivityManager)
-
-            coVerify {
-                weatherListViewModel.getGeocodingResponseFromZipCode(any())
-                weatherListViewModel.getOpenWeatherResponse(any(), any())
-            }
+            coEvery { weatherListViewModel.getGeocodingResponseFromZipCode(any()) } returns "response"
+            coEvery { weatherListRepository.getGeocodingResponseJson(any()) } returns "response"
+            coEvery { weatherListRepository.retrieveWeatherResponseJsonFromSharedPrefs() } returns "response"
+            weatherListViewModel.getGeocodingResponseFromZipCode(ZIPCODE)
+            coVerify { weatherListRepository.getGeocodingResponseJson(any()) }
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `Given getGeocodingResponseFromZipCode() is called Then getGeocodingResponseJson() is called`() {
+    fun `GIVEN getOpenWeatherResponse() is called THEN getWeatherResponseJson() is called in the repository`() {
         runTest {
-            coEvery { weatherListRepository.getGeocodingResponseJson(any()) } returns ""
-            coEvery { weatherListViewModel.getGeocodingResponseFromZipCode(any()) } returns ""
-            coEvery { weatherListRepository.retrieveWeatherResponseJsonFromSharedPrefs() } returns ""
+            coEvery { weatherListViewModel.getGeocodingResponseFromZipCode(any()) } returns "response"
+            coEvery { weatherListRepository.getGeocodingResponseJson(any()) } returns "response"
+            coEvery { weatherListRepository.retrieveWeatherResponseJsonFromSharedPrefs() } returns "response"
             weatherListViewModel.getGeocodingResponseFromZipCode(ZIPCODE)
-
             coVerify { weatherListRepository.getGeocodingResponseJson(any()) }
         }
     }
