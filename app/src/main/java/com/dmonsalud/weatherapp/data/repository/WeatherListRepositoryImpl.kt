@@ -38,8 +38,8 @@ class WeatherListRepositoryImpl(
 
     override suspend fun getWeatherResponseJson(
         lat: String,
-        long: String
+        lon: String
     ): String? {
-        return remoteDataSource.getWeatherForecastFromApi(lat, long)
+        return remoteDataSource.getWeatherForecastFromApi(lat, lon)
     }
 }

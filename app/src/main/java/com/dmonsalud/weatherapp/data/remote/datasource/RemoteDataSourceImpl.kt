@@ -21,16 +21,14 @@ class RemoteDataSourceImpl(
             parameter("zip", zipCode)
             parameter("appid", Constants.GEOAPIKEY)
         }
-
         return geoString
     }
 
-
-    override suspend fun getWeatherForecastFromApi(lat: String, long: String): String {
+    override suspend fun getWeatherForecastFromApi(lat: String, lon: String): String {
         val weatherString = client.get<String>("https://api.openweathermap.org/data/2.5/forecast") {
             contentType(Json)
             parameter("lat", lat)
-            parameter("lon", long)
+            parameter("lon", lon)
             parameter("appid", Constants.WEATHERAPIKEY)
         }
         return weatherString
