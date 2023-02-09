@@ -17,7 +17,7 @@ data class GeocodingApiResponse(
  */
 
 data class FiveDayWeatherResult(
-    val list: List<OpenWeatherApiResponse>
+    var list: List<OpenWeatherApiResponse>
 )
 
 data class OpenWeatherApiResponse(

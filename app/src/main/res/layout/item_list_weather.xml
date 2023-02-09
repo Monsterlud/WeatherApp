@@ -33,36 +33,37 @@
                 android:padding="2dp">
 
                 <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="TIME: "/>
-
-                <TextView
                     android:id="@+id/dayTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:textStyle="bold"
-                    tools:text="Today" />
+                    android:textColor="@color/white"
+                    tools:text="Today's Date" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/weather_white"
                 tools:text="70F" />
 
             <TextView
-                android:id="@+id/wind"
+                android:id="@+id/humidity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="20 mph N" />
+                android:textSize="16dp"
+                android:textColor="@color/weather_white"
+                tools:text="93%" />
 
             <TextView
-                android:id="@+id/weatherOutlook"
+                android:id="@+id/weatherDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/weather_white"
                 tools:text="Sunny" />
         </LinearLayout>
 
