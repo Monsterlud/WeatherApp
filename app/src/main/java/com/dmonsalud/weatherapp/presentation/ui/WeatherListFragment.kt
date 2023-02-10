@@ -2,6 +2,7 @@ package com.dmonsalud.weatherapp.presentation.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,23 +12,22 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmonsalud.weatherapp.R
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
 import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.OpenWeatherApiHttpRequest
-import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
-import com.dmonsalud.weatherapp.model.Constants
 import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import com.google.gson.Gson
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherListFragment() : Fragment() {
 
     private lateinit var binding: FragmentListWeatherBinding
-    private val sharedPreferences =
-        this.context?.getSharedPreferences(Constants.WEATHER_PREFERENCES, Context.MODE_PRIVATE)
+
+    private val sharedPreferences by inject<SharedPreferences>()
+    private val weatherListViewModel by viewModel<WeatherListViewModel>()
+
     private lateinit var weatherJsonStringHolder: String
-    private val localDataSource = sharedPreferences?.let { LocalDataSourceImpl(it) }
-    private val weatherListRepository = localDataSource?.let { WeatherListRepositoryImpl(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +72,7 @@ class WeatherListFragment() : Fragment() {
          */
         if (NetworkUtils().hasInternetConnection(connectivityManager)) {
             weatherJsonStringHolder = OpenWeatherApiHttpRequest(zipCode).execute().get()
-            weatherListRepository?.cacheWeatherResponseJson(weatherJsonStringHolder)
+            weatherListViewModel.saveWeatherResponseJson(weatherJsonStringHolder)
 
             /**
              * Translate Json to create a list of OpenWeatherApiResponse objects
@@ -85,7 +85,7 @@ class WeatherListFragment() : Fragment() {
             // Alternatively, get the list of OpenWeatherApiResponse object from SharedPreferences
             sharedPreferences?.let {
                 val jsonStringFromLocalStorage =
-                    weatherListRepository?.retrieveWeatherResponseJson()
+                    weatherListViewModel?.responseJson
                 val fiveDayWeatherResultFromPrefs =
                     Gson().fromJson(jsonStringFromLocalStorage, FiveDayWeatherResult::class.java)
                 binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResultFromPrefs)
