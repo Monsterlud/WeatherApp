@@ -1,9 +1,9 @@
 package com.dmonsalud.weatherapp.presentation.ui
 
 import android.net.ConnectivityManager
-import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
+import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
-import com.dmonsalud.weatherapp.model.OpenWeatherApiResponse
+import com.dmonsalud.weatherapp.utils.OpenWeatherApiResponse
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

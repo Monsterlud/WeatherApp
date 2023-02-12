@@ -1,18 +1,20 @@
 package com.dmonsalud.weatherapp.di
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
+import androidx.room.Room
 import com.dmonsalud.weatherapp.data.LocalDataSource
 import com.dmonsalud.weatherapp.data.RemoteDataSource
 import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
-import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDatabase
+import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
 import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
-import com.dmonsalud.weatherapp.model.Constants
+import com.dmonsalud.weatherapp.di.KoinModule.Companion.WEATHER_DATABASE
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
 import com.dmonsalud.weatherapp.presentation.ui.WeatherListViewModel
+import com.dmonsalud.weatherapp.utils.Constants
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
@@ -26,7 +28,19 @@ import org.koin.dsl.module
 
 val koinModule = module {
     val moduleInstance = KoinModule()
-    single { moduleInstance.getSharedPreferences(androidApplication()) }
+
+    fun provideDatabase(application: Application) : WeatherDatabase {
+        return Room.databaseBuilder(
+            application,
+            WeatherDatabase::class.java,
+            WEATHER_DATABASE
+        ).build()
+    }
+
+    fun provideDao(database: WeatherDatabase) : WeatherDAO{
+        return database.weatherDao()
+    }
+
     single { LocalDataSourceImpl(get()) } bind LocalDataSource::class
     single { RemoteDataSourceImpl(get()) } bind RemoteDataSource::class
     single { WeatherListRepositoryImpl(get(), get()) } bind (WeatherListRepository::class)
@@ -34,16 +48,15 @@ val koinModule = module {
 
     single(qualifier = null) { moduleInstance.ktorClient() }
     single { NetworkUtils() }
+
+    single { provideDatabase(androidApplication()) } bind WeatherDatabase::class
+    single { provideDao(get()) }
 }
+
+
 
 class KoinModule {
     val module get() = koinModule
-
-    fun getSharedPreferences(application: Application): SharedPreferences {
-        return application.getSharedPreferences(
-            Constants.WEATHER_PREFERENCES, Context.MODE_PRIVATE
-        )
-    }
 
     fun ktorClient() = HttpClient(Android) {
         install(JsonFeature) {
@@ -65,5 +78,9 @@ class KoinModule {
             connectTimeout = Constants.TIMEOUT
             socketTimeout = Constants.TIMEOUT
         }
+    }
+
+    companion object {
+        const val WEATHER_DATABASE = "weather_database"
     }
 }

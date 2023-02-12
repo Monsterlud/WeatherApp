@@ -1,7 +1,7 @@
 package com.dmonsalud.weatherapp.data.remote.datasource
 
 import com.dmonsalud.weatherapp.data.RemoteDataSource
-import com.dmonsalud.weatherapp.model.Constants
+import com.dmonsalud.weatherapp.utils.Constants
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter

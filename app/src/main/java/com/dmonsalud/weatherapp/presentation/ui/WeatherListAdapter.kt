@@ -3,8 +3,8 @@ package com.dmonsalud.weatherapp.presentation.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
 import com.dmonsalud.weatherapp.databinding.ItemListWeatherBinding
-import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -27,12 +27,12 @@ class WeatherListAdapter(private val fiveDayWeatherResult: FiveDayWeatherResult)
         val ldtFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
         val formattedDate = dateTime.format(ldtFormatter)
 
-        val kToF = ((1.8 * (fiveDayWeatherResult.list[position].main.temp-273)) + 32).toInt()
+        val kToF = ((1.8 * (fiveDayWeatherResult.list[position].temp-273)) + 32).toInt()
         val temp = "Temperature: $kToF F"
 
-        val humidity = "Humidity: ${fiveDayWeatherResult.list[position].main.humidity}%"
+        val humidity = "Humidity: ${fiveDayWeatherResult.list[position].humidity}%"
 
-        val weatherDescription = "Forecast: ${fiveDayWeatherResult.list[position].weather.first().description}"
+        val weatherDescription = "Forecast: ${fiveDayWeatherResult.list[position].description}"
 
         holder.binding.dayTime.text = formattedDate.toString()
         holder.binding.temperature.text = temp

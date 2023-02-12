@@ -1,21 +1,30 @@
 package com.dmonsalud.weatherapp.data.local.datasource
 
-import android.content.SharedPreferences
 import com.dmonsalud.weatherapp.data.LocalDataSource
-import com.dmonsalud.weatherapp.model.Constants.FIVE_DAY_WEATHER_RESULT
+import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
+import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
+import com.dmonsalud.weatherapp.utils.FiveDayWeatherResponseFromApi
+import com.google.gson.Gson
 
 class LocalDataSourceImpl(
-    private val weatherPreferences: SharedPreferences
+    private val weatherDAO: WeatherDAO
 ) : LocalDataSource {
+    val gson = Gson()
+    val mapper = EntityMappers()
 
-    override fun saveWeatherForecast(value: String?) {
-        return with(weatherPreferences.edit()) {
-            putString(FIVE_DAY_WEATHER_RESULT, value)
-            apply()
+    override suspend fun saveWeatherForecast(value: String?) {
+        weatherDAO.clearDatabase()
+        val weatherResponseList = gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
+        for (apiResponse in weatherResponseList) {
+            val item = mapper.mapFromDtoToEntity(apiResponse)
+            weatherDAO.addWeatherResponseToRoom(item)
         }
     }
 
-    override fun getWeatherForecast(): String? {
-        return weatherPreferences.getString(FIVE_DAY_WEATHER_RESULT, "n/a")
+    override suspend fun getWeatherForecast(): String? {
+        val weatherList = weatherDAO.getWeatherResponseFromRoom()
+        val fiveDayWeatherResult = FiveDayWeatherResult(weatherList)
+        return gson.toJson(fiveDayWeatherResult)
     }
 }

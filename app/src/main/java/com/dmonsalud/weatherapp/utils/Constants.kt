@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.model
+package com.dmonsalud.weatherapp.utils
 
 object Constants {
 

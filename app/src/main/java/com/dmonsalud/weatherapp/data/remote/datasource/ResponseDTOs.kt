@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.model
+package com.dmonsalud.weatherapp.utils
 
 /**
  * Geocoding Api Response
@@ -16,7 +16,7 @@ data class GeocodingApiResponse(
  * Open Weather Api Response
  */
 
-data class FiveDayWeatherResult(
+data class FiveDayWeatherResponseFromApi(
     var list: List<OpenWeatherApiResponse>
 )
 

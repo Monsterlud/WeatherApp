@@ -6,13 +6,13 @@ class LocalDataSourceFake : LocalDataSource {
     val KEY = "test_key"
     val fakeSharedPreferencesMap = mutableMapOf<String, String>()
 
-    override fun saveWeatherForecast(value: String?) {
+    override suspend fun saveWeatherForecast(value: String?) {
         value?.let {
             fakeSharedPreferencesMap.put(KEY, value)
         }
     }
 
-    override fun getWeatherForecast(): String? {
+    override suspend fun getWeatherForecast(): String? {
         return fakeSharedPreferencesMap.get(KEY)
     }
 }

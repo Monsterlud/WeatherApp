@@ -10,8 +10,11 @@ import androidx.room.Query
 interface WeatherDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addWeatherResponseToRoom(response: List<WeatherEntity>)
+    suspend fun addWeatherResponseToRoom(entity: WeatherEntity)
 
-    @Query("SELECT * FROM weather_table")
-    fun getWeatherResponseFromRoom() : List<WeatherEntity>
+    @Query("SELECT * FROM weather_table ORDER BY id ASC")
+    suspend fun getWeatherResponseFromRoom() : List<WeatherEntity>
+
+    @Query("DELETE FROM weather_table")
+    suspend fun clearDatabase()
 }
