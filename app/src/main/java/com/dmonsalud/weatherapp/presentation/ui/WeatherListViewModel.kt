@@ -13,6 +13,8 @@ class WeatherListViewModel(
     private val networkUtils: NetworkUtils
 ) : ViewModel() {
 
+    var location: String? = null
+
     /**
      * Five Day Weather Forecast
      */
@@ -21,6 +23,7 @@ class WeatherListViewModel(
         connectivityManager: ConnectivityManager
     ): FiveDayWeatherResult {
         val gson = Gson()
+
 
         if (networkUtils.hasInternetConnection(connectivityManager)) {
             /**
@@ -32,6 +35,7 @@ class WeatherListViewModel(
             val geoResult = gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
             val lat = geoResult.lat
             val lon = geoResult.lon
+            location = "${geoResult.name}, ${geoResult.country}"
 
             /**
              * Using the 'lat' and 'lon' from the previous API call,
