@@ -1,19 +1,46 @@
 package com.dmonsalud.weatherapp.presentation.ui
 
+import android.net.ConnectivityManager
 import androidx.lifecycle.ViewModel
+import com.dmonsalud.weatherapp.data.remote.datasource.NetworkUtils
+import com.dmonsalud.weatherapp.model.FiveDayWeatherResult
+import com.dmonsalud.weatherapp.model.GeocodingApiResponse
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
+import com.google.gson.Gson
 
 class WeatherListViewModel(
-    private val weatherListRepository: WeatherListRepository
+    private val weatherListRepository: WeatherListRepository,
+    private val networkUtils: NetworkUtils
 ): ViewModel() {
 
-    val responseJson = weatherListRepository.retrieveWeatherResponseJson()
+    private val responseJsonFromSharedPrefs = weatherListRepository.retrieveWeatherResponseJsonFromSharedPrefs()
 
-    fun saveWeatherResponseJson(value: String?) {
-        if (!value.isNullOrEmpty()) {
-            return weatherListRepository.cacheWeatherResponseJson(value)
+    suspend fun getGeocodingResponseFromZipCode(zipCode: Int): String? {
+        return weatherListRepository.getGeocodingResponseJson(zipCode)
+    }
+
+    suspend fun getOpenWeatherResponse(lat: String, long: String): String? {
+        return weatherListRepository.getWeatherResponseJson(lat, long)
+    }
+
+    /**
+     * Five Day Weather Forecast
+     */
+
+    suspend fun getFiveDayWeatherForecast(zipCode: Int, connectivityManager: ConnectivityManager): FiveDayWeatherResult {
+        val gson = Gson()
+        lateinit var weatherJsonStringHolder: String
+        val fiveDayWeatherResult: FiveDayWeatherResult
+        if (networkUtils.hasInternetConnection(connectivityManager)) {
+            val geoJsonStringHolder = getGeocodingResponseFromZipCode(zipCode)
+            val geoResult = gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
+            val lat = geoResult.lat
+            val lon = geoResult.lon
+            weatherJsonStringHolder = getOpenWeatherResponse(lat.toString(), lon.toString()).toString()
+            fiveDayWeatherResult = gson.fromJson(weatherJsonStringHolder, FiveDayWeatherResult::class.java)
         } else {
-            throw Exception("Cannot save null value or empty string.")
+            fiveDayWeatherResult = gson.fromJson(responseJsonFromSharedPrefs, FiveDayWeatherResult::class.java)
         }
+        return fiveDayWeatherResult
     }
 }

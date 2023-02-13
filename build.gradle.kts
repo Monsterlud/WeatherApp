@@ -16,6 +16,6 @@ plugins {
     id("org.jetbrains.kotlin.android").version("1.6.21") apply false
 }
 
-task<Delete>("clean") {
+task<Delete>("delete") {
     delete(rootProject.buildDir)
 }

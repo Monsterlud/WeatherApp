@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class LocalDataSourceImplTest {
 
     private val localDataSourceFake = LocalDataSourceFake()
-    private val testString = "test value"
+    private val testString = "The quick brown fox jumps over the lazy dog."
 
     @Test
     fun `GIVEN user saves a string as weather forecast THEN key-value pair is saved to SharedPreferences`() {
