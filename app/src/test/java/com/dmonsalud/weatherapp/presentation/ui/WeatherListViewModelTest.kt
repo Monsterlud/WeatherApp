@@ -23,7 +23,7 @@ class WeatherListViewModelTest {
     val weatherListViewModel = WeatherListViewModel(weatherListRepository, networkUtils)
     val fiveDayWeatherResult = mockk<FiveDayWeatherResult>()
 
-    val ZIPCODE = 80302
+    val ZIPCODE = "80302"
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule

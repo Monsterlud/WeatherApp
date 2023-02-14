@@ -12,7 +12,7 @@ class RemoteDataSourceImpl(
     private val client: HttpClient
 ) : RemoteDataSource {
 
-    override suspend fun getGeocodingResponseFromApi(zipCode: Int): String {
+    override suspend fun getGeocodingResponseFromApi(zipCode: String): String {
         val geoString = client.get<String>("https://api.openweathermap.org/geo/1.0/zip") {
             contentType(Json)
             parameter("zip", zipCode)

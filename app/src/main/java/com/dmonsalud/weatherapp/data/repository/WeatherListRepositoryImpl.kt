@@ -30,7 +30,7 @@ class WeatherListRepositoryImpl(
      */
 
     override suspend fun getGeocodingResponseJson(
-        zipCode: Int
+        zipCode: String
     ): String? {
         return remoteDataSource.getGeocodingResponseFromApi(zipCode)
     }

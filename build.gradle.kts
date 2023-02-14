@@ -19,5 +19,3 @@ plugins {
 task<Delete>("delete") {
     delete(rootProject.buildDir)
 }
-
-

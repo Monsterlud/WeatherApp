@@ -19,7 +19,7 @@ class WeatherListViewModel(
      * Five Day Weather Forecast
      */
     suspend fun getFiveDayWeatherForecast(
-        zipCode: Int,
+        zipCode: String,
         connectivityManager: ConnectivityManager
     ): FiveDayWeatherResult {
         val gson = Gson()

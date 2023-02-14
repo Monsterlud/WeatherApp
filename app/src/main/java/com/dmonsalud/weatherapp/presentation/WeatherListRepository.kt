@@ -6,7 +6,7 @@ interface WeatherListRepository {
 
     suspend fun retrieveWeatherResponseJson(): String?
 
-    suspend fun getGeocodingResponseJson(zipCode: Int): String?
+    suspend fun getGeocodingResponseJson(zipCode: String): String?
 
     suspend fun getWeatherResponseJson(lat: String, lon: String): String?
 

@@ -58,7 +58,7 @@ class WeatherListFragment() : Fragment() {
                 } else if (zipCode.isEmpty()) { clearRecyclerView() }
                 else {
                     fiveDayWeatherResult = weatherListViewModel.getFiveDayWeatherForecast(
-                        zipCode.toInt(), connectivityManager
+                        zipCode, connectivityManager
                     )
                     binding.locationDisplay.setTextColor(resources.getColor(R.color.weather_dark))
                     binding.locationDisplay.setText("Weather forecast for ${weatherListViewModel.location}")
