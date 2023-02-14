@@ -5,7 +5,7 @@ import com.dmonsalud.weatherapp.utils.OpenWeatherApiResponse
 
 class EntityMappers : ObjectMappers<OpenWeatherApiResponse, WeatherEntity> {
 
-    override fun mapFromDtoToEntity(dto: OpenWeatherApiResponse): WeatherEntity {
+    override fun mapFromDtoToEntity(dto: OpenWeatherApiResponse) : WeatherEntity {
         return WeatherEntity(
             dt_txt = dto.dt_txt,
             temp = dto.main.temp,

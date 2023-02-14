@@ -15,11 +15,14 @@ class LocalDataSourceImpl(
 
     override suspend fun saveWeatherForecast(value: String?) {
         weatherDAO.clearDatabase()
-        val weatherResponseList = gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
-        for (apiResponse in weatherResponseList) {
-            val item = mapper.mapFromDtoToEntity(apiResponse)
-            weatherDAO.addWeatherResponseToRoom(item)
-        }
+        if (value != null) {
+            val weatherResponseList =
+                gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
+            for (apiResponse in weatherResponseList) {
+                val item = mapper.mapFromDtoToEntity(apiResponse)
+                weatherDAO.addWeatherResponseToRoom(item)
+            }
+        } else throw Exception("Invalid Json String")
     }
 
     override suspend fun getWeatherForecast(): String? {

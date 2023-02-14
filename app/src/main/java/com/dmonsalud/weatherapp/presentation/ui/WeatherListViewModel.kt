@@ -24,12 +24,11 @@ class WeatherListViewModel(
     ): FiveDayWeatherResult {
         val gson = Gson()
 
-
         if (networkUtils.hasInternetConnection(connectivityManager)) {
             /**
              * Get Response Json from Geocoding API and convert it to a GeoCodingApiResponse object
              * THEN, extract the 'lat' and 'lon' from that object
-              */
+             */
 
             val geoJsonStringHolder = weatherListRepository.getGeocodingResponseJson(zipCode)
             val geoResult = gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
@@ -47,6 +46,9 @@ class WeatherListViewModel(
                 weatherListRepository.getWeatherResponseJson(lat.toString(), lon.toString())
             weatherListRepository.cacheWeatherResponseJson(weatherJsonStringHolder)
         }
-        return gson.fromJson(weatherListRepository.retrieveWeatherResponseJson(), FiveDayWeatherResult::class.java)
+        return gson.fromJson(
+            weatherListRepository.retrieveWeatherResponseJson(),
+            FiveDayWeatherResult::class.java
+        )
     }
 }

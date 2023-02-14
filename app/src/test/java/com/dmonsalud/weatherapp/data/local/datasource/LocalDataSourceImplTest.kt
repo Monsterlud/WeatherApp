@@ -1,20 +1,35 @@
 package com.dmonsalud.weatherapp.data.local.datasource
 
-import com.dmonsalud.weatherapp.data.repository.LocalDataSourceFake
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
+import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-
+@RunWith(JUnit4::class)
 internal class LocalDataSourceImplTest {
 
-    private val localDataSourceFake = LocalDataSourceFake()
-    private val testString = "The quick brown fox jumps over the lazy dog."
+    val dao = mockk<WeatherDAO>()
+    val localDataSource = LocalDataSourceImpl(dao)
 
     @Test
-    fun `GIVEN user saves a string as weather forecast THEN key-value pair is saved to SharedPreferences`() {
-        localDataSourceFake.saveWeatherForecast(testString)
-        val returnString = localDataSourceFake.getWeatherForecast()
-        Assertions.assertEquals(testString, returnString)
+    fun `GIVEN user saves an empty string as weather forecast THEN an Exception is thrown`() {
+        Assertions.assertThrows(Exception::class.java) {
+            runBlocking {
+                localDataSource.saveWeatherForecast("")
+            }
+        }
+    }
+
+    @Test
+    fun `GIVEN user saves an null value as weather forecast THEN an Exception is thrown`() {
+        Assertions.assertThrows(Exception::class.java) {
+            runBlocking {
+                localDataSource.saveWeatherForecast(null)
+            }
+        }
     }
 }
 

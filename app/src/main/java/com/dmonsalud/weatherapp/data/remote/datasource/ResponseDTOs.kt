@@ -33,6 +33,8 @@ data class OpenWeatherApiResponse(
     var wind: Wind
 )
 
+
+
 data class Clouds(
     var all: Int
 )
