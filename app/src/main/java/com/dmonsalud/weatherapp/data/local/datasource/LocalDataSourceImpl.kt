@@ -6,23 +6,29 @@ import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
 import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
 import com.dmonsalud.weatherapp.utils.FiveDayWeatherResponseFromApi
 import com.google.gson.Gson
+import kotlinx.serialization.SerializationException
 
 class LocalDataSourceImpl(
-    private val weatherDAO: WeatherDAO
+    private val weatherDAO: WeatherDAO,
+    private val gson: Gson,
+    private val mapper: EntityMappers
 ) : LocalDataSource {
-    val gson = Gson()
-    val mapper = EntityMappers()
 
     override suspend fun saveWeatherForecast(value: String?) {
         weatherDAO.clearDatabase()
-        if (value != null) {
-            val weatherResponseList =
-                gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
-            for (apiResponse in weatherResponseList) {
-                val item = mapper.mapFromDtoToEntity(apiResponse)
-                weatherDAO.addWeatherResponseToRoom(item)
+        if (!value.isNullOrEmpty()) {
+            try {
+                val weatherResponseList =
+                    gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
+
+                for (apiResponse in weatherResponseList) {
+                    val item = mapper.mapFromDtoToEntity(apiResponse)
+                    weatherDAO.addWeatherResponseToRoom(item)
+                }
+            } catch (e: Exception) {
+                throw SerializationException(e)
             }
-        } else throw Exception("Invalid Json String")
+        } else throw IllegalArgumentException("Invalid Json String")
     }
 
     override suspend fun getWeatherForecast(): String? {
