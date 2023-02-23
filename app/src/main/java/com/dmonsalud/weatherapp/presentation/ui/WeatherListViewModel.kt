@@ -60,47 +60,4 @@ class WeatherListViewModel(
             weatherListRepository.getWeatherResponseJson(lat.toString(), lon.toString())
         weatherListRepository.cacheWeatherResponseJson(weatherJsonStringHolder)
     }
-
-
-
-
-
-
-
-
-
-
-//    suspend fun getFiveDayWeatherForecast(
-//        zipCode: String,
-//        connectivityManager: ConnectivityManager
-//    ) : FiveDayWeatherResult {
-//        val gson = Gson()
-//
-//        if (networkUtils.hasInternetConnection(connectivityManager)) {
-//            /**
-//             * Get Response Json from Geocoding API and convert it to a GeoCodingApiResponse object
-//             * THEN, extract the 'lat' and 'lon' from that object
-//             */
-//
-//            val geoJsonStringHolder = weatherListRepository.getGeocodingResponseJson(zipCode)
-//            val geoResult = gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
-//            val lat = geoResult.lat
-//            val lon = geoResult.lon
-//            location = "${geoResult.name}, ${geoResult.country}"
-//
-//            /**
-//             * Using the 'lat' and 'lon' from the previous API call,
-//             * Get Response Json from OpenWeather API
-//             * THEN use pass that Json String onto the Repository/LocalDataSource to convert into
-//             * WeatherEntity objects and save to Room Database
-//             */
-//            val weatherJsonStringHolder =
-//                weatherListRepository.getWeatherResponseJson(lat.toString(), lon.toString())
-//            weatherListRepository.cacheWeatherResponseJson(weatherJsonStringHolder)
-//        }
-//        return gson.fromJson(
-//            weatherListRepository.retrieveWeatherResponseJson(),
-//            FiveDayWeatherResult::class.java
-//        )
-//    }
 }
