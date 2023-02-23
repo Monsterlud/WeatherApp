@@ -1,10 +1,13 @@
 package com.dmonsalud.weatherapp.presentation
 
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
+import kotlinx.coroutines.flow.Flow
+
 interface WeatherListRepository {
 
     suspend fun cacheWeatherResponseJson(value: String?)
 
-    suspend fun retrieveWeatherResponseJson(): String?
+    fun retrieveWeatherResponseJson(): Flow<List<WeatherEntity>>
 
     suspend fun getGeocodingResponseJson(zipCode: String): String?
 

@@ -76,19 +76,17 @@ dependencies {
     val roomVersion = "2.5.0"
 
     // Miscellaneous AndroidX
-    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-    implementation("androidx.activity:activity-ktx:1.6.1")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
 
     // AndroidX - Room
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     androidTestImplementation("androidx.room:room-test:$roomVersion")
-    testImplementation("androidx.room:room-testing:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Google
