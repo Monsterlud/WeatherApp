@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
 }
 
 android {
@@ -9,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.dmonsalud.weatherapp"
         minSdk = 26
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -49,6 +52,15 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            tasks.withType<Test> {
+                useJUnitPlatform()
+            }
+        }
+    }
 }
 
 tasks.withType<Test> {
@@ -61,8 +73,9 @@ dependencies {
     val mockkVersion = "1.13.3"
     val ktorVersion = "1.6.3"
     val coroutinesVersion = "1.3.2"
+    val roomVersion = "2.5.0"
 
-    // AndroidX
+    // Miscellaneous AndroidX
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
@@ -70,7 +83,13 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation("androidx.activity:activity-ktx:1.6.1")
-    testImplementation("androidx.test:core-ktx:1.5.0")
+
+    // AndroidX - Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    androidTestImplementation("androidx.room:room-test:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     // Google
     implementation("com.google.android.material:material:1.7.0")
@@ -94,6 +113,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 
     // Unit Testing - JUnit 4/5
+    testImplementation("androidx.test:core-ktx:1.5.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 

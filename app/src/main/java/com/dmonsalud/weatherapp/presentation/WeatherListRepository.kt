@@ -2,11 +2,11 @@ package com.dmonsalud.weatherapp.presentation
 
 interface WeatherListRepository {
 
-    fun cacheWeatherResponseJsonToSharedPrefs(value: String?)
+    suspend fun cacheWeatherResponseJson(value: String?)
 
-    fun retrieveWeatherResponseJsonFromSharedPrefs(): String?
+    suspend fun retrieveWeatherResponseJson(): String?
 
-    suspend fun getGeocodingResponseJson(zipCode: Int): String?
+    suspend fun getGeocodingResponseJson(zipCode: String): String?
 
     suspend fun getWeatherResponseJson(lat: String, lon: String): String?
 

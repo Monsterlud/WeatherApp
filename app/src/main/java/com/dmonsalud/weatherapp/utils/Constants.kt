@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.model
+package com.dmonsalud.weatherapp.utils
 
 object Constants {
 
@@ -15,4 +15,6 @@ object Constants {
     const val WEATHERAPIKEY = "c55cf80588aaf17941120bfbc7e366e8"
 
     const val TIMEOUT = 10_000
+
+    const val ZIP_REGEX = "^[0-9]{5}(?:-[0-9]{4})?$"
 }
