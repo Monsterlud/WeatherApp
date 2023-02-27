@@ -114,6 +114,7 @@ dependencies {
     testImplementation("androidx.test:core-ktx:1.5.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    testImplementation("app.cash.turbine:turbine:0.12.1")
 
     // Instrumented Android Testing
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

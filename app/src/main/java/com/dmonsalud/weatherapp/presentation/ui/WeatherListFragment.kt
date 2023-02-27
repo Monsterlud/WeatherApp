@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -59,6 +60,7 @@ class WeatherListFragment() : Fragment() {
                         binding.locationDisplay.setText("Please enter a valid zip code")
                     } else if (zipCode.isEmpty()) { clearRecyclerView() }
                     else {
+                        binding.progressBar.isVisible = true
                         weatherListViewModel.saveFiveDayWeatherForecast(
                             zipCode, connectivityManager
                         )
@@ -66,6 +68,7 @@ class WeatherListFragment() : Fragment() {
                             binding.locationDisplay.setTextColor(resources.getColor(R.color.weather_dark))
                             binding.locationDisplay.setText("Weather forecast for ${weatherListViewModel.location}")
                             binding.rvWeatherList.adapter = WeatherListAdapter(it)
+                            binding.progressBar.isVisible = false
                         }
                     }
                 }
