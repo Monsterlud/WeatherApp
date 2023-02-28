@@ -8,7 +8,6 @@ import com.dmonsalud.weatherapp.utils.FiveDayWeatherResponseFromApi
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 
-
 class LocalDataSourceImpl(
     private val weatherDAO: WeatherDAO,
     private val gson: Gson,
@@ -17,14 +16,15 @@ class LocalDataSourceImpl(
 
     override suspend fun saveWeatherForecast(value: String?) {
         weatherDAO.clearDatabase()
-        if (value != null) {
-            val weatherResponseList =
-                gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
-            for (apiResponse in weatherResponseList) {
-                val item = mapper.mapFromDtoToEntity(apiResponse)
-                weatherDAO.addWeatherResponseToRoom(item)
-            }
-        } else throw Exception("Invalid Json String")
+        if (!value.isNullOrEmpty()) {
+                val weatherResponseList =
+                    gson.fromJson(value, FiveDayWeatherResponseFromApi::class.java).list
+
+                for (apiResponse in weatherResponseList) {
+                    val item = mapper.mapFromDtoToEntity(apiResponse)
+                    weatherDAO.addWeatherResponseToRoom(item)
+                }
+        } else throw IllegalArgumentException("Invalid Json String")
     }
 
     override fun getWeatherForecast(): Flow<List<WeatherEntity>> {

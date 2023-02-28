@@ -50,6 +50,8 @@ val koinModule = module {
 
     single(qualifier = null) { moduleInstance.ktorClient() }
     single { NetworkUtils() }
+    single { EntityMappers() }
+    single { Gson() }
 
     single { provideDatabase(androidApplication()) } bind WeatherDatabase::class
     single { provideDao(get()) }
