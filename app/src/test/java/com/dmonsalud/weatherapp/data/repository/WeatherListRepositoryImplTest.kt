@@ -1,11 +1,13 @@
 package com.dmonsalud.weatherapp.data.repository
 
 import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
 import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
@@ -19,6 +21,22 @@ internal class WeatherListRepositoryImplTest {
     val ZIPCODE = "80304"
     val LAT = "40"
     val LON = "-100"
+
+    val weatherEntity1 = WeatherEntity(
+        0,
+        "Rick",
+        100.0,
+        100,
+        "Sunny"
+    )
+
+    val weatherEntity2 = WeatherEntity(
+        1,
+        "Morty",
+        50.0,
+        50,
+        "Freezing"
+    )
 
     /**
      * Testing LocalDataSource
@@ -38,7 +56,9 @@ internal class WeatherListRepositoryImplTest {
     @Test
     fun `GIVEN retrieveWeatherResponseJson() is called THEN getWeatherForecast() is called from the localdatasource`() {
         runTest {
-            coEvery { localDataSource.getWeatherForecast() } returns "response"
+            coEvery { localDataSource.getWeatherForecast() } returns flow {
+                emit(listOf(weatherEntity1, weatherEntity2))
+            }
             weatherListRepository.retrieveWeatherResponseJson()
             coVerify { localDataSource.getWeatherForecast() }
         }
@@ -66,4 +86,6 @@ internal class WeatherListRepositoryImplTest {
             coVerify { remoteDataSource.getWeatherForecastFromApi(any(), any()) }
         }
     }
+
+
 }
