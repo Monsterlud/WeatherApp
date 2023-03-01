@@ -82,6 +82,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.test:core-ktx:1.5.0")
 
     // AndroidX - Room
@@ -115,7 +116,7 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:0.12.1")
 
     // Unit Testing - JUnit
-
+    testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 

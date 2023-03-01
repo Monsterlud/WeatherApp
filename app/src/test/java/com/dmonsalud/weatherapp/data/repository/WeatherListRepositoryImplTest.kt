@@ -6,8 +6,12 @@ import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
@@ -87,5 +91,22 @@ internal class WeatherListRepositoryImplTest {
         }
     }
 
-
+    @Test
+    fun `testFlowFromRoom`() {
+        runTest {
+            coEvery { localDataSource.getWeatherForecast() } returns flowOf(
+                listOf(
+                    weatherEntity1,
+                    weatherEntity2
+                )
+            )
+            val weatherList = weatherListRepository.retrieveWeatherResponseJson()
+            assertEquals(1, weatherList.count())
+            val humidity1 = weatherList.first()[0].humidity
+            assertEquals(100, humidity1)
+            val temp2 = weatherList.first()[1].temp
+            assertEquals(50.0, temp2)
+            assertEquals(2, weatherList.first().size)
+        }
+    }
 }
