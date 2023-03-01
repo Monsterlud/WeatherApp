@@ -27,7 +27,7 @@ class WeatherListViewModel(
     private val _weatherForecast = MutableStateFlow<FiveDayWeatherResult>(FiveDayWeatherResult(emptyList()))
     val weatherForecast = _weatherForecast.asStateFlow()
 
-    init {
+    fun initialize() {
         viewModelScope.launch {
             weatherListRepository.retrieveWeatherResponseJson().collect { weatherForecast ->
                 _weatherForecast.value = FiveDayWeatherResult(weatherForecast)

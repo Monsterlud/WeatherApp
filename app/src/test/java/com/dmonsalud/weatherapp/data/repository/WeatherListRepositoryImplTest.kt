@@ -91,8 +91,9 @@ internal class WeatherListRepositoryImplTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `testFlowFromRoom`() {
+    fun testFlowFromLocalDataSource() {
         runTest {
             coEvery { localDataSource.getWeatherForecast() } returns flowOf(
                 listOf(

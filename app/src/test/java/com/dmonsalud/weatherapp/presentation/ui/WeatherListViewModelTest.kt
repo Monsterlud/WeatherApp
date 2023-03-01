@@ -1,110 +1,107 @@
 package com.dmonsalud.weatherapp.presentation.ui
 
-import android.net.ConnectivityManager
-import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
+import app.cash.turbine.test
+import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
+import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
 import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
-import com.dmonsalud.weatherapp.mocks.geoResponse
-import com.dmonsalud.weatherapp.mocks.weatherResponse
+import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImplTest
+import com.dmonsalud.weatherapp.presentation.WeatherListRepository
 import com.dmonsalud.weatherapp.rules.MainDispatcherRule
+import com.dmonsalud.weatherapp.utils.Main
 import com.google.gson.Gson
 import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+
+import kotlin.test.assertEquals
 
 class WeatherListViewModelTest {
 
-    val networkUtils = mockk<NetworkUtils>()
-    val connectivityManager = mockk<ConnectivityManager>()
-    val gson = mockk<Gson>()
-    val weatherListRepository = mockk<WeatherListRepositoryImpl>(relaxed = true)
-    val weatherListViewModel = WeatherListViewModel(weatherListRepository, networkUtils, gson)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
-    val ZIPCODE = "80302"
+    val weatherListRepository = mockk<WeatherListRepositoryImpl>()
+    val networkUtils = mockk<NetworkUtils>()
+    val gson = mockk<Gson>()
+
+    val weatherEntity1 = WeatherEntity(
+        0,
+        "Rick",
+        0.0,
+        0,
+        "Freezing"
+    )
+
+    val weatherEntity2 = WeatherEntity(
+        1,
+        "Morty",
+        25.0,
+        25,
+        "Cold"
+    )
+
+    val weatherEntity3 = WeatherEntity(
+        2,
+        "Summer",
+        75.0,
+        75,
+        "Warm"
+    )
+
+    val weatherEntity4 = WeatherEntity(
+        3,
+        "Beth",
+        100.0,
+        100,
+        "Hot"
+    )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val testDispatcher = StandardTestDispatcher(TestCoroutineScheduler())
+    @Test
+    fun testStateFlowFromRepository() {
+        runTest {
+            coEvery {
+                weatherListRepository.retrieveWeatherResponseJson()
+            } returns flow {
+                emit(
+                    listOf(
+                        weatherEntity1,
+                        weatherEntity2
+                    )
+                )
+                delay(100)
+                emit(
+                    listOf(
+                        weatherEntity3,
+                        weatherEntity4,
+                    )
+                )
+            }
 
-    @BeforeEach
-    fun setUp() {
-        Dispatchers.setMain(testDispatcher)
+            val weatherListViewModel = WeatherListViewModel(
+                weatherListRepository,
+                networkUtils,
+                gson,
+            )
+
+            launch(Dispatchers.Main) { weatherListViewModel.initialize() }
+            advanceUntilIdle()
+            assertEquals(listOf( weatherEntity1, weatherEntity2), weatherListViewModel.weatherForecast.first().list)
+        }
     }
-
-    @AfterEach
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
-//    @ExperimentalCoroutinesApi
-//    @Test
-//    fun `GIVEN saveFiveDayWeatherForecast() is called THEN getGeocodingResponseJson() is called from repository`() {
-//        runTest(UnconfinedTestDispatcher()) {
-//
-//            every { networkUtils.hasInternetConnection(connectivityManager) } returns true
-//            coEvery { weatherListRepository.getGeocodingResponseJson(any()) } returns geoResponse
-//            coEvery {
-//                weatherListRepository.getWeatherResponseJson(
-//                    any(),
-//                    any()
-//                )
-//            } returns weatherResponse
-//            coEvery { weatherListRepository.cacheWeatherResponseJson(any()) } returns Unit
-//
-//            weatherListViewModel.saveFiveDayWeatherForecast(ZIPCODE, connectivityManager)
-//
-//            coVerify {
-//                weatherListRepository.getGeocodingResponseJson(any())
-//            }
-//        }
-//    }
-
-//    @ExperimentalCoroutinesApi
-//    @Test
-//    fun `GIVEN saveFiveDayWeatherForecast() is called THEN getWeatherResponseJson() is called from repository`() {
-//        runTest {
-//
-//            every { networkUtils.hasInternetConnection(connectivityManager) } returns true
-//            coEvery { weatherListRepository.getGeocodingResponseJson(any()) } returns geoResponse
-//            coEvery {
-//                weatherListRepository.getWeatherResponseJson(
-//                    any(),
-//                    any()
-//                )
-//            } returns weatherResponse
-//            coEvery { weatherListRepository.cacheWeatherResponseJson(any()) } returns Unit
-//
-//            weatherListViewModel.saveFiveDayWeatherForecast(
-//                ZIPCODE,
-//                connectivityManager
-//            )
-//
-//            coVerify {
-//                weatherListRepository.getWeatherResponseJson(any(), any())
-//            }
-//        }
-//    }
-
 }
 

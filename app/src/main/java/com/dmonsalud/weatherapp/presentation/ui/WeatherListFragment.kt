@@ -30,6 +30,7 @@ class WeatherListFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.title = getString(R.string.weatherapp_forecast)
+        weatherListViewModel.initialize()
     }
 
     override fun onCreateView(
