@@ -1,9 +1,9 @@
-package com.dmonsalud.weatherapp.di
+package com.dmonsalud.di
 
 import android.app.Application
 import android.util.Log
 import androidx.room.Room
-import com.dmonsalud.weatherapp.data.LocalDataSource
+import com.dmonsalud.data.datasource.LocalDataSource
 import com.dmonsalud.weatherapp.data.RemoteDataSource
 import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
 import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
@@ -13,9 +13,9 @@ import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
 import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
 import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.di.KoinModule.Companion.WEATHER_DATABASE
-import com.dmonsalud.weatherapp.presentation.WeatherListRepository
-import com.dmonsalud.weatherapp.presentation.ui.WeatherListViewModel
-import com.dmonsalud.weatherapp.utils.Constants
+import com.dmonsalud.ui.WeatherListRepository
+import com.dmonsalud.ui.ui.WeatherListViewModel
+import com.dmonsalud.weatherapp.utils.AppConstants
 import com.google.gson.Gson
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -60,8 +60,6 @@ val koinModule = module {
     single { EntityMappers() }
 }
 
-
-
 class KoinModule {
     val module get() = koinModule
 
@@ -82,8 +80,8 @@ class KoinModule {
             }
         }
         engine {
-            connectTimeout = Constants.TIMEOUT
-            socketTimeout = Constants.TIMEOUT
+            connectTimeout = AppConstants.TIMEOUT
+            socketTimeout = AppConstants.TIMEOUT
         }
     }
 
