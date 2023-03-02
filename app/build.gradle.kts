@@ -75,6 +75,11 @@ dependencies {
     val coroutinesVersion = "1.6.4"
     val roomVersion = "2.5.0"
 
+    // Modules
+    implementation(project(":ui"))
+    implementation(project(":data"))
+    implementation(project(":di"))
+    
     // Miscellaneous AndroidX
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.cardview:cardview:1.0.0")

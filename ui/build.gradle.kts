@@ -15,7 +15,6 @@ android {
         targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -58,6 +57,10 @@ dependencies {
     val ktorVersion = "1.6.3"
     val coroutinesVersion = "1.6.4"
     val roomVersion = "2.5.0"
+
+    // Modules
+    implementation(project(":data"))
+    implementation(project(":di"))
 
     // Miscellaneous AndroidX
     implementation("androidx.appcompat:appcompat:1.5.1")
