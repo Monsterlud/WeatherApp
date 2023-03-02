@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 class WeatherListViewModel(
     private val weatherListRepository: WeatherListRepository,
     private val networkUtils: NetworkUtils,
-    private val gson: Gson
 ) : ViewModel() {
 
     var location: String? = null
@@ -44,20 +43,7 @@ class WeatherListViewModel(
         connectivityManager: ConnectivityManager
     ) {
         if (networkUtils.hasInternetConnection(connectivityManager)) {
-            val geoResult = getLatAndLonFromGeocodingApi(zipCode)
-            getAndSaveWeatherResponseJsonFromApi(geoResult.lat, geoResult.lon)
-            location = "${geoResult.name}, ${geoResult.country}"
+            location = weatherListRepository.getAndSaveFiveDayWeatherForecast(zipCode)
         }
-    }
-
-    private suspend fun getLatAndLonFromGeocodingApi(zipCode: String) : GeocodingApiResponse {
-        val geoJsonStringHolder = weatherListRepository.getGeocodingResponseJson(zipCode)
-        return gson.fromJson(geoJsonStringHolder, GeocodingApiResponse::class.java)
-    }
-
-    private suspend fun getAndSaveWeatherResponseJsonFromApi(lat: Double?, lon: Double?) {
-        val weatherJsonStringHolder =
-            weatherListRepository.getWeatherResponseJson(lat.toString(), lon.toString())
-        weatherListRepository.cacheWeatherResponseJson(weatherJsonStringHolder)
     }
 }

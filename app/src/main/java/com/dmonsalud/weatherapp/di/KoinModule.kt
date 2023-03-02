@@ -45,8 +45,8 @@ val koinModule = module {
 
     single { LocalDataSourceImpl(get(), get(), get()) } bind LocalDataSource::class
     single { RemoteDataSourceImpl(get()) } bind RemoteDataSource::class
-    single { WeatherListRepositoryImpl(get(), get()) } bind (WeatherListRepository::class)
-    viewModel { WeatherListViewModel(get(), get(), get()) }
+    single { WeatherListRepositoryImpl(get(), get(), get()) } bind (WeatherListRepository::class)
+    viewModel { WeatherListViewModel(get(), get()) }
 
     single(qualifier = null) { moduleInstance.ktorClient() }
     single { NetworkUtils() }

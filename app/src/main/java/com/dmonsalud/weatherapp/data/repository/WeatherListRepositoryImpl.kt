@@ -4,12 +4,26 @@ import com.dmonsalud.weatherapp.data.LocalDataSource
 import com.dmonsalud.weatherapp.data.RemoteDataSource
 import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
+import com.dmonsalud.weatherapp.utils.GeocodingApiResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class WeatherListRepositoryImpl(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val gson: Gson,
 ) : WeatherListRepository {
+
+    var location: String? = null
+
+    override suspend fun getAndSaveFiveDayWeatherForecast(zipCode: String) : String {
+        val geoResult = gson.fromJson(getGeocodingResponseJson(zipCode), GeocodingApiResponse::class.java)
+        val weatherJson = getWeatherResponseJson(geoResult.lat, geoResult.lon)
+        cacheWeatherResponseJson(weatherJson)
+        return "${geoResult.name}, ${geoResult.country}"
+    }
 
     /**
      * Local Data From Room
@@ -30,7 +44,6 @@ class WeatherListRepositoryImpl(
     /**
      * Remote Data From APIs
      */
-
     override suspend fun getGeocodingResponseJson(
         zipCode: String
     ): String? {
@@ -38,9 +51,9 @@ class WeatherListRepositoryImpl(
     }
 
     override suspend fun getWeatherResponseJson(
-        lat: String,
-        lon: String
+        lat: Double,
+        lon: Double
     ): String? {
-        return remoteDataSource.getWeatherForecastFromApi(lat, lon)
+        return remoteDataSource.getWeatherResponseFromApi(lat.toString(), lon.toString())
     }
 }

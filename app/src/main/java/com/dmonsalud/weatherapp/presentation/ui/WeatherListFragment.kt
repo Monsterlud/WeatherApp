@@ -67,9 +67,9 @@ class WeatherListFragment() : Fragment() {
                         )
                         weatherListViewModel.weatherForecast.collect {
                             binding.locationDisplay.setTextColor(resources.getColor(R.color.weather_dark))
-                            binding.locationDisplay.setText("Weather forecast for ${weatherListViewModel.location}")
                             binding.rvWeatherList.adapter = WeatherListAdapter(it)
                             binding.progressBar.isVisible = false
+                            binding.locationDisplay.setText("Weather forecast for ${weatherListViewModel.location}")
                         }
                     }
                 }

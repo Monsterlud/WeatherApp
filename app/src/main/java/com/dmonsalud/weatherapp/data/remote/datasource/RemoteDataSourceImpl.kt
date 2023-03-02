@@ -21,7 +21,7 @@ class RemoteDataSourceImpl(
         return geoString
     }
 
-    override suspend fun getWeatherForecastFromApi(lat: String, lon: String): String {
+    override suspend fun getWeatherResponseFromApi(lat: String, lon: String): String {
         val weatherString = client.get<String>("https://api.openweathermap.org/data/2.5/forecast") {
             contentType(Json)
             parameter("lat", lat)

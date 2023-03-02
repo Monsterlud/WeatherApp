@@ -4,5 +4,5 @@ interface RemoteDataSource {
 
     suspend fun getGeocodingResponseFromApi(zipCode: String): String?
 
-    suspend fun getWeatherForecastFromApi(lat: String, lon: String): String?
+    suspend fun getWeatherResponseFromApi(lat: String, lon: String): String?
 }
