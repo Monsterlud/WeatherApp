@@ -1,10 +1,10 @@
-package com.dmonsalud.weatherapp.presentation.ui
+package com.dmonsalud.ui.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
-import com.dmonsalud.weatherapp.databinding.ItemListWeatherBinding
+import com.dmonsalud.data.datasource.room.FiveDayWeatherResult
+import com.dmonsalud.ui.databinding.ItemListWeatherBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

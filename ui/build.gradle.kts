@@ -60,7 +60,6 @@ dependencies {
 
     // Modules
     implementation(project(":data"))
-    implementation(project(":di"))
 
     // Miscellaneous AndroidX
     implementation("androidx.appcompat:appcompat:1.5.1")

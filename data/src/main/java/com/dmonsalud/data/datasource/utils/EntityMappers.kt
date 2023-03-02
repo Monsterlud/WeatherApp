@@ -1,6 +1,6 @@
-package com.dmonsalud.weatherapp.data.remote.datasource.utils
+package com.dmonsalud.data.datasource.utils
 
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
+import com.dmonsalud.data.datasource.room.WeatherEntity
 import com.dmonsalud.weatherapp.utils.OpenWeatherApiResponse
 
 class EntityMappers : ObjectMappers<OpenWeatherApiResponse, WeatherEntity> {

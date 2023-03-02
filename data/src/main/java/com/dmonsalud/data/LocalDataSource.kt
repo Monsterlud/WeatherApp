@@ -1,6 +1,6 @@
-package com.dmonsalud.weatherapp.data
+package com.dmonsalud.data
 
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
+import com.dmonsalud.data.datasource.room.WeatherEntity
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {

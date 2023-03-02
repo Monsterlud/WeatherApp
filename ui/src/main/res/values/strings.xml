@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="weatherapp_forecast">WeatherApp Forecast</string>
+    <string name="clear">Clear</string>
+    <string name="submit">Submit</string>
+    <string name="enter_zip_code">Enter Zip Code to get Weather Forecast:</string>
+    <string name="zip_code">Zip Code</string>
 </resources>

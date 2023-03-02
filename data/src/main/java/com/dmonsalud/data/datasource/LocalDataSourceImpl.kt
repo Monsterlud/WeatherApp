@@ -1,9 +1,9 @@
-package com.dmonsalud.weatherapp.data.local.datasource
+package com.dmonsalud.data.datasource
 
-import com.dmonsalud.weatherapp.data.LocalDataSource
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
+import com.dmonsalud.data.LocalDataSource
+import com.dmonsalud.data.datasource.room.WeatherDAO
+import com.dmonsalud.data.datasource.room.WeatherEntity
+import com.dmonsalud.data.datasource.utils.EntityMappers
 import com.dmonsalud.weatherapp.utils.FiveDayWeatherResponseFromApi
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow

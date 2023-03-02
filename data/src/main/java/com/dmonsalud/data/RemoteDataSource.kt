@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.data
+package com.dmonsalud.data
 
 interface RemoteDataSource {
 

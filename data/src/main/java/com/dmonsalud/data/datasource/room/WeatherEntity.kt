@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.data.local.datasource.room
+package com.dmonsalud.data.datasource.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

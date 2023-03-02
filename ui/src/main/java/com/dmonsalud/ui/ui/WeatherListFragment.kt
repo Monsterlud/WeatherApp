@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.presentation.ui
+package com.dmonsalud.ui.ui
 
 import android.content.Context
 import android.graphics.Color
@@ -14,10 +14,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dmonsalud.weatherapp.R
-import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
-import com.dmonsalud.weatherapp.databinding.FragmentListWeatherBinding
-import com.dmonsalud.weatherapp.utils.Constants
+import com.dmonsalud.data.datasource.room.FiveDayWeatherResult
+import com.dmonsalud.ui.R
+import com.dmonsalud.ui.UiConstants
+import com.dmonsalud.ui.databinding.FragmentListWeatherBinding
 import java.util.regex.Pattern
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,7 +45,7 @@ class WeatherListFragment() : Fragment() {
             false
         )
 
-        val zipValidator = Pattern.compile(Constants.ZIP_REGEX)
+        val zipValidator = Pattern.compile(UiConstants.ZIP_REGEX)
 
         binding.zipCodeSubmitButton.setOnClickListener {
             val zipCode: String = binding.etZipCode.text.toString()
@@ -59,8 +59,9 @@ class WeatherListFragment() : Fragment() {
                     if (!matcher.matches()) {
                         binding.locationDisplay.setTextColor(Color.RED)
                         binding.locationDisplay.setText("Please enter a valid zip code")
-                    } else if (zipCode.isEmpty()) { clearRecyclerView() }
-                    else {
+                    } else if (zipCode.isEmpty()) {
+                        clearRecyclerView()
+                    } else {
                         binding.progressBar.isVisible = true
                         weatherListViewModel.saveFiveDayWeatherForecast(
                             zipCode, connectivityManager

@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.data.remote.datasource.utils
+package com.dmonsalud.data.datasource.utils
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities

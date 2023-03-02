@@ -78,8 +78,7 @@ dependencies {
     // Modules
     implementation(project(":ui"))
     implementation(project(":data"))
-    implementation(project(":di"))
-    
+
     // Miscellaneous AndroidX
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.cardview:cardview:1.0.0")

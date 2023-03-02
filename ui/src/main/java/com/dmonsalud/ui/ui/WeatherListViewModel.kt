@@ -1,13 +1,11 @@
-package com.dmonsalud.weatherapp.presentation.ui
+package com.dmonsalud.ui.ui
 
 import android.net.ConnectivityManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
-import com.dmonsalud.weatherapp.presentation.WeatherListRepository
-import com.dmonsalud.weatherapp.utils.GeocodingApiResponse
-import com.google.gson.Gson
+import com.dmonsalud.data.WeatherListRepository
+import com.dmonsalud.data.datasource.room.FiveDayWeatherResult
+import com.dmonsalud.data.datasource.utils.NetworkUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

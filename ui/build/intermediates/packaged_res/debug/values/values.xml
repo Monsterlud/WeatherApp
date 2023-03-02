@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="black">#FF000000</color>
+    <color name="text_dark">#1b1b1b</color>
+    <color name="weather_dark">#255d00</color>
+    <color name="weather_light">#85bb5c</color>
+    <color name="weather_main">#558b2f</color>
+    <color name="weather_white">#E0FACC</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">WeatherApp</string>
+    <string name="clear">Clear</string>
+    <string name="enter_zip_code">Enter Zip Code to get Weather Forecast:</string>
+    <string name="submit">Submit</string>
+    <string name="weatherapp_forecast">WeatherApp Forecast</string>
+    <string name="zip_code">Zip Code</string>
+    <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        
+        <item name="colorPrimary">@color/weather_dark</item>
+        <item name="colorPrimaryVariant">@color/weather_main</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <item name="colorSecondary">@color/weather_light</item>
+        <item name="colorSecondaryVariant">@color/weather_main</item>
+        <item name="colorOnSecondary">@color/black</item>
+        
+        <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorPrimaryVariant</item>
+        
+    </style>
+</resources>

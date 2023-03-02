@@ -1,21 +1,21 @@
-package com.dmonsalud.di
+package com.dmonsalud.weatherapp.di
 
 import android.app.Application
 import android.util.Log
 import androidx.room.Room
-import com.dmonsalud.data.datasource.LocalDataSource
-import com.dmonsalud.weatherapp.data.RemoteDataSource
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDatabase
-import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
-import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
+import com.dmonsalud.data.LocalDataSource
+import com.dmonsalud.data.RemoteDataSource
+import com.dmonsalud.data.WeatherListRepository
+import com.dmonsalud.data.datasource.LocalDataSourceImpl
+import com.dmonsalud.data.datasource.RemoteDataSourceImpl
+import com.dmonsalud.data.datasource.room.WeatherDAO
+import com.dmonsalud.data.datasource.room.WeatherDatabase
+import com.dmonsalud.data.datasource.utils.EntityMappers
+import com.dmonsalud.data.datasource.utils.NetworkUtils
+import com.dmonsalud.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.di.KoinModule.Companion.WEATHER_DATABASE
-import com.dmonsalud.ui.WeatherListRepository
 import com.dmonsalud.ui.ui.WeatherListViewModel
-import com.dmonsalud.weatherapp.utils.AppConstants
+import com.dmonsalud.weatherapp.AppConstants
 import com.google.gson.Gson
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -39,7 +39,7 @@ val koinModule = module {
         ).build()
     }
 
-    fun provideDao(database: WeatherDatabase) : WeatherDAO{
+    fun provideDao(database: WeatherDatabase) : WeatherDAO {
         return database.weatherDao()
     }
 

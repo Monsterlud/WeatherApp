@@ -1,7 +1,7 @@
-package com.dmonsalud.weatherapp.data.remote.datasource
+package com.dmonsalud.data.datasource
 
-import com.dmonsalud.weatherapp.data.RemoteDataSource
-import com.dmonsalud.weatherapp.utils.Constants
+import com.dmonsalud.data.RemoteDataSource
+import com.dmonsalud.data.DataConstants
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -16,7 +16,7 @@ class RemoteDataSourceImpl(
         val geoString = client.get<String>("https://api.openweathermap.org/geo/1.0/zip") {
             contentType(Json)
             parameter("zip", zipCode)
-            parameter("appid", Constants.GEOAPIKEY)
+            parameter("appid", DataConstants.GEOAPIKEY)
         }
         return geoString
     }
@@ -26,7 +26,7 @@ class RemoteDataSourceImpl(
             contentType(Json)
             parameter("lat", lat)
             parameter("lon", lon)
-            parameter("appid", Constants.WEATHERAPIKEY)
+            parameter("appid", DataConstants.WEATHERAPIKEY)
         }
         return weatherString
     }

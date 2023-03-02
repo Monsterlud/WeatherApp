@@ -1,15 +1,10 @@
 package com.dmonsalud.weatherapp.presentation.ui
 
-import app.cash.turbine.test
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
-import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
-import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
-import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImplTest
-import com.dmonsalud.weatherapp.presentation.WeatherListRepository
+import com.dmonsalud.ui.ui.WeatherListViewModel
+import com.dmonsalud.data.datasource.room.WeatherEntity
+import com.dmonsalud.data.datasource.utils.NetworkUtils
+import com.dmonsalud.data.repository.WeatherListRepositoryImpl
 import com.dmonsalud.weatherapp.rules.MainDispatcherRule
-import com.dmonsalud.weatherapp.utils.Main
 import com.google.gson.Gson
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -18,9 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

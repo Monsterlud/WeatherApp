@@ -1,7 +1,6 @@
-package com.dmonsalud.ui
+package com.dmonsalud.data
 
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
-import com.dmonsalud.weatherapp.utils.GeocodingApiResponse
+import com.dmonsalud.data.datasource.room.WeatherEntity
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherListRepository {

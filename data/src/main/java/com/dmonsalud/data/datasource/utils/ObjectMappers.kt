@@ -1,4 +1,4 @@
-package com.dmonsalud.weatherapp.data.remote.datasource.utils
+package com.dmonsalud.data.datasource.utils
 
 interface ObjectMappers <OpenWeatherApiResponse, WeatherEntity> {
     fun mapFromDtoToEntity(dto: OpenWeatherApiResponse) : WeatherEntity

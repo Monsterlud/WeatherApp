@@ -17,4 +17,3 @@ rootProject.name = "WeatherApp"
 include(":app")
 include(":ui")
 include(":data")
-include(":di")

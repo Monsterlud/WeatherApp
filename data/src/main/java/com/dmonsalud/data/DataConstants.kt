@@ -1,6 +1,9 @@
 package com.dmonsalud.data
 
-object Constants {
+object DataConstants {
 
     const val greetingFromData = "Hello from the Data module!!!"
+
+    const val GEOAPIKEY = "6ac4a867247e4553cb55984a2afce83e"
+    const val WEATHERAPIKEY = "c55cf80588aaf17941120bfbc7e366e8"
 }

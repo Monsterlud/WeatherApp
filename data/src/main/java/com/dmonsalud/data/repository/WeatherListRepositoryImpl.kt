@@ -1,14 +1,12 @@
-package com.dmonsalud.weatherapp.data.repository
+package com.dmonsalud.data.repository
 
-import com.dmonsalud.weatherapp.data.LocalDataSource
-import com.dmonsalud.weatherapp.data.RemoteDataSource
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
-import com.dmonsalud.weatherapp.presentation.WeatherListRepository
+import com.dmonsalud.data.LocalDataSource
+import com.dmonsalud.data.RemoteDataSource
+import com.dmonsalud.data.WeatherListRepository
+import com.dmonsalud.data.datasource.room.WeatherEntity
 import com.dmonsalud.weatherapp.utils.GeocodingApiResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 
 class WeatherListRepositoryImpl(
     private val localDataSource: LocalDataSource,
