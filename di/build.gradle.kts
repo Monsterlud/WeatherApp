@@ -1,22 +1,20 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
-    id("kotlin-kapt")
 }
 
 android {
+    namespace = "com.dmonsalud.di"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.dmonsalud.weatherapp"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -28,43 +26,13 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
-
-    flavorDimensions += "paidMode"
-
-    productFlavors {
-        create("free") {
-            dimension = "paidMode"
-        }
-        create("paid") {
-            dimension = "paidMode"
-        }
-    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
-
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
-        unitTests.all {
-            tasks.withType<Test> {
-                useJUnitPlatform()
-            }
-        }
-    }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
 
 dependencies {
@@ -72,27 +40,23 @@ dependencies {
     val espressoVersion = "3.5.1"
     val mockkVersion = "1.13.3"
     val ktorVersion = "1.6.3"
-    val coroutinesVersion = "1.6.4"
+    val coroutinesVersion = "1.3.2"
     val roomVersion = "2.5.0"
 
-    // Modules
-    implementation(project(":di"))
-
     // Miscellaneous AndroidX
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.activity:activity-ktx:1.6.1")
 
     // AndroidX - Room
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     androidTestImplementation("androidx.room:room-test:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
 
     // Google
     implementation("com.google.android.material:material:1.7.0")
@@ -115,11 +79,8 @@ dependencies {
     // MockK
     testImplementation("io.mockk:mockk:$mockkVersion")
 
-    // Turbine
-    testImplementation("app.cash.turbine:turbine:0.12.1")
-
-    // Unit Testing - JUnit
-    testImplementation("junit:junit:4.13.2")
+    // Unit Testing - JUnit 4/5
+    testImplementation("androidx.test:core-ktx:1.5.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 
