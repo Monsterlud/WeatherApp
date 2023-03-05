@@ -1,7 +1,6 @@
 package com.dmonsalud.weatherapp
 
 import android.app.Application
-import com.dmonsalud.di.koinModule
 import com.dmonsalud.weatherapp.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -15,8 +14,7 @@ class WeatherAppApplication : Application() {
             androidContext(this@WeatherAppApplication)
             modules(
                 listOf(
-                    appModule,
-                    koinModule
+                    appModule
                 )
             )
         }
