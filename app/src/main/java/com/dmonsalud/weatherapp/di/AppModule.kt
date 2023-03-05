@@ -4,18 +4,17 @@ import android.app.Application
 import android.util.Log
 import androidx.room.Room
 
-import com.dmonsalud.weatherapp.data.LocalDataSource
-import com.dmonsalud.weatherapp.data.RemoteDataSource
-import com.dmonsalud.weatherapp.data.local.datasource.LocalDataSourceImpl
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDatabase
-import com.dmonsalud.weatherapp.data.remote.datasource.RemoteDataSourceImpl
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.NetworkUtils
-import com.dmonsalud.weatherapp.data.repository.WeatherListRepositoryImpl
-import com.dmonsalud.weatherapp.presentation.WeatherListRepository
-import com.dmonsalud.weatherapp.presentation.ui.WeatherListViewModel
-import com.dmonsalud.weatherapp.utils.Constants
+import com.dmonsalud.data.LocalDataSource
+import com.dmonsalud.data.RemoteDataSource
+import com.dmonsalud.data.datasource.LocalDataSourceImpl
+import com.dmonsalud.data.datasource.room.WeatherDAO
+import com.dmonsalud.data.datasource.room.WeatherDatabase
+import com.dmonsalud.data.datasource.RemoteDataSourceImpl
+import com.dmonsalud.data.datasource.utils.EntityMappers
+import com.dmonsalud.data.datasource.utils.NetworkUtils
+import com.dmonsalud.ui.ui.WeatherListViewModel
+import com.dmonsalud.data.WeatherListRepository
+import com.dmonsalud.data.repository.WeatherListRepositoryImpl
 import com.google.gson.Gson
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -27,6 +26,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import com.dmonsalud.weatherapp.AppConstants
 
 val appModule = module {
     val moduleInstance = AppModule()
@@ -45,8 +45,8 @@ val appModule = module {
 
     single { LocalDataSourceImpl(get(), get(), get()) } bind LocalDataSource::class
     single { RemoteDataSourceImpl(get()) } bind RemoteDataSource::class
-    single { WeatherListRepositoryImpl(get(), get()) } bind (WeatherListRepository::class)
-    viewModel { WeatherListViewModel(get(), get(), get()) }
+    single { WeatherListRepositoryImpl(get(), get(), get()) } bind (WeatherListRepository::class)
+    viewModel { WeatherListViewModel(get(), get()) }
 
     single(qualifier = null) { moduleInstance.ktorClient() }
     single { NetworkUtils() }
@@ -80,10 +80,11 @@ class AppModule {
             }
         }
         engine {
-            connectTimeout = Constants.TIMEOUT
-            socketTimeout = Constants.TIMEOUT
+            connectTimeout = AppConstants.TIMEOUT
+            socketTimeout = AppConstants.TIMEOUT
         }
     }
+
     companion object {
         const val WEATHER_DATABASE = "weather_database"
     }
