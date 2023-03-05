@@ -1,8 +1,9 @@
 package com.dmonsalud.weatherapp.data.local.datasource
 
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherDAO
-import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
-import com.dmonsalud.weatherapp.data.remote.datasource.utils.EntityMappers
+import com.dmonsalud.data.datasource.LocalDataSourceImpl
+import com.dmonsalud.data.datasource.room.WeatherDAO
+import com.dmonsalud.data.datasource.room.WeatherEntity
+import com.dmonsalud.data.datasource.utils.EntityMappers
 import com.google.gson.Gson
 import io.mockk.coEvery
 import io.mockk.mockk

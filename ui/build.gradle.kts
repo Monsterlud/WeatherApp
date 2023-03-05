@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
     id("kotlin-android-extensions")
@@ -7,14 +7,12 @@ plugins {
 }
 
 android {
+    namespace = "com.dmonsalud.ui"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.dmonsalud.weatherapp"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,10 +20,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -33,22 +28,10 @@ android {
         viewBinding = true
     }
 
-    flavorDimensions += "paidMode"
-
-    productFlavors {
-        create("free") {
-            dimension = "paidMode"
-        }
-        create("paid") {
-            dimension = "paidMode"
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -76,7 +59,6 @@ dependencies {
     val roomVersion = "2.5.0"
 
     // Modules
-    implementation(project(":ui"))
     implementation(project(":data"))
 
     // Miscellaneous AndroidX

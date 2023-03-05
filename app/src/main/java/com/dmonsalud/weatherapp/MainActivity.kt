@@ -2,7 +2,7 @@ package com.dmonsalud.weatherapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.dmonsalud.weatherapp.presentation.ui.WeatherListFragment
+import com.dmonsalud.ui.ui.WeatherListFragment
 
 class MainActivity : AppCompatActivity() {
 
