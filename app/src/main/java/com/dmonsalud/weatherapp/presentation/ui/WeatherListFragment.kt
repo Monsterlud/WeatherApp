@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmonsalud.weatherapp.R
 import com.dmonsalud.weatherapp.data.local.datasource.room.FiveDayWeatherResult
@@ -27,6 +30,7 @@ class WeatherListFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.title = getString(R.string.weatherapp_forecast)
+        weatherListViewModel.initialize()
     }
 
     override fun onCreateView(
@@ -42,7 +46,6 @@ class WeatherListFragment() : Fragment() {
         )
 
         val zipValidator = Pattern.compile(Constants.ZIP_REGEX)
-        lateinit var fiveDayWeatherResult: FiveDayWeatherResult
 
         binding.zipCodeSubmitButton.setOnClickListener {
             val zipCode: String = binding.etZipCode.text.toString()
@@ -51,18 +54,24 @@ class WeatherListFragment() : Fragment() {
             val connectivityManager =
                 activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-            lifecycleScope.launch {
-                if (!matcher.matches()) {
-                    binding.locationDisplay.setTextColor(Color.RED)
-                    binding.locationDisplay.setText("Please enter a valid zip code")
-                } else if (zipCode.isEmpty()) { clearRecyclerView() }
-                else {
-                    fiveDayWeatherResult = weatherListViewModel.getFiveDayWeatherForecast(
-                        zipCode, connectivityManager
-                    )
-                    binding.locationDisplay.setTextColor(resources.getColor(R.color.weather_dark))
-                    binding.locationDisplay.setText("Weather forecast for ${weatherListViewModel.location}")
-                    binding.rvWeatherList.adapter = WeatherListAdapter(fiveDayWeatherResult)
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    if (!matcher.matches()) {
+                        binding.locationDisplay.setTextColor(Color.RED)
+                        binding.locationDisplay.setText("Please enter a valid zip code")
+                    } else if (zipCode.isEmpty()) { clearRecyclerView() }
+                    else {
+                        binding.progressBar.isVisible = true
+                        weatherListViewModel.saveFiveDayWeatherForecast(
+                            zipCode, connectivityManager
+                        )
+                        weatherListViewModel.weatherForecast.collect {
+                            binding.locationDisplay.setTextColor(resources.getColor(R.color.weather_dark))
+                            binding.locationDisplay.setText("Weather forecast for ${weatherListViewModel.location}")
+                            binding.rvWeatherList.adapter = WeatherListAdapter(it)
+                            binding.progressBar.isVisible = false
+                        }
+                    }
                 }
             }
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

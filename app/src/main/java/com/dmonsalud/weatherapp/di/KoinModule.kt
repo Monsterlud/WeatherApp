@@ -46,7 +46,7 @@ val koinModule = module {
     single { LocalDataSourceImpl(get(), get(), get()) } bind LocalDataSource::class
     single { RemoteDataSourceImpl(get()) } bind RemoteDataSource::class
     single { WeatherListRepositoryImpl(get(), get()) } bind (WeatherListRepository::class)
-    viewModel { WeatherListViewModel(get(), get()) }
+    viewModel { WeatherListViewModel(get(), get(), get()) }
 
     single(qualifier = null) { moduleInstance.ktorClient() }
     single { NetworkUtils() }
@@ -55,6 +55,9 @@ val koinModule = module {
 
     single { provideDatabase(androidApplication()) } bind WeatherDatabase::class
     single { provideDao(get()) }
+
+    single { Gson() }
+    single { EntityMappers() }
 }
 
 

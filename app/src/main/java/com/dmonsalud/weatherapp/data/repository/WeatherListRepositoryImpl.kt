@@ -2,7 +2,9 @@ package com.dmonsalud.weatherapp.data.repository
 
 import com.dmonsalud.weatherapp.data.LocalDataSource
 import com.dmonsalud.weatherapp.data.RemoteDataSource
+import com.dmonsalud.weatherapp.data.local.datasource.room.WeatherEntity
 import com.dmonsalud.weatherapp.presentation.WeatherListRepository
+import kotlinx.coroutines.flow.Flow
 
 class WeatherListRepositoryImpl(
     private val localDataSource: LocalDataSource,
@@ -21,7 +23,7 @@ class WeatherListRepositoryImpl(
         }
     }
 
-    override suspend fun retrieveWeatherResponseJson(): String? {
+    override fun retrieveWeatherResponseJson(): Flow<List<WeatherEntity>> {
         return localDataSource.getWeatherForecast()
     }
 
