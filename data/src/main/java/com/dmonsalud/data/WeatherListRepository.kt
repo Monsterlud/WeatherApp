@@ -11,8 +11,8 @@ interface WeatherListRepository {
 
     suspend fun getAndSaveFiveDayWeatherForecast(zipCode: String) : String
 
-    suspend fun getGeocodingResponseJson(zipCode: String) : String?
+    suspend fun getGeocodingResponseJson(zipCode: String) : Result<String?>
 
-    suspend fun getWeatherResponseJson(lat: Double, lon: Double): String?
+    suspend fun getWeatherResponseJson(lat: Double, lon: Double): Result<String?>
 
 }

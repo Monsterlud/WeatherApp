@@ -91,7 +91,7 @@ dependencies {
     // AndroidX - Room
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
-    androidTestImplementation("androidx.room:room-test:$roomVersion")
+    androidTestImplementation("androidx.room:room-testing:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Google

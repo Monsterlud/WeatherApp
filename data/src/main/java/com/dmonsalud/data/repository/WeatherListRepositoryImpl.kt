@@ -18,8 +18,8 @@ class WeatherListRepositoryImpl(
 
     override suspend fun getAndSaveFiveDayWeatherForecast(zipCode: String): String {
         val geoResult =
-            gson.fromJson(getGeocodingResponseJson(zipCode), GeocodingApiResponse::class.java)
-        val weatherJson = getWeatherResponseJson(geoResult.lat, geoResult.lon)
+            gson.fromJson(getGeocodingResponseJson(zipCode).getOrNull(), GeocodingApiResponse::class.java)
+        val weatherJson = getWeatherResponseJson(geoResult.lat, geoResult.lon).getOrNull()
         cacheWeatherResponseJson(weatherJson)
         return "${geoResult.name}, ${geoResult.country}"
     }
@@ -45,14 +45,14 @@ class WeatherListRepositoryImpl(
      */
     override suspend fun getGeocodingResponseJson(
         zipCode: String,
-    ): String? {
+    ): Result<String?> {
         return remoteDataSource.getGeocodingResponseFromApi(zipCode)
     }
 
     override suspend fun getWeatherResponseJson(
         lat: Double,
         lon: Double,
-    ): String? {
+    ): Result<String?> {
         return remoteDataSource.getWeatherResponseFromApi(lat.toString(), lon.toString())
     }
 }
