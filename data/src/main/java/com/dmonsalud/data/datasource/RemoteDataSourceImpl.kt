@@ -23,14 +23,11 @@ class RemoteDataSourceImpl(
                 parameter("appid", DataConstants.GEOAPIKEY)
             }
             return Result.success(geoString)
-        } catch (e: NetworkErrorException) {
-            return Result.failure(DataError.Network(e))
         } catch (e: IOException) {
             return Result.failure(DataError.Network(e))
         } catch (e: Exception) {
             return Result.failure(DataError.Unknown(e))
         }
-
     }
 
     override suspend fun getWeatherResponseFromApi(lat: String, lon: String): Result<String> {
@@ -43,8 +40,6 @@ class RemoteDataSourceImpl(
                     parameter("appid", DataConstants.WEATHERAPIKEY)
                 }
             return Result.success(weatherString)
-        } catch (e: HttpException) {
-            return Result.failure(DataError.Network(e))
         } catch (e: IOException) {
             return Result.failure(DataError.Network(e))
         } catch (e: Exception) {
